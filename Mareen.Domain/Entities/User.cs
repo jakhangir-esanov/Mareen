@@ -12,4 +12,5 @@ public sealed class User : Auditable
     public string PhoneNumber { get; set; }
     public string Password { get; set; }
     public Role UserRole { get; set; }
+    public long HotelId { get; set; }
 }

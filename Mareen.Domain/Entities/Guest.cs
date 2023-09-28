@@ -11,4 +11,6 @@ public sealed class Guest : Auditable
     public string PhoneNumber { get; set; }
     public string Email { get; set; }
     public string Password { get; set;}
+    public ICollection<PaymentHistory> Transactions { get; set; }
+    public ICollection<Booking> Bookings { get;}
 }

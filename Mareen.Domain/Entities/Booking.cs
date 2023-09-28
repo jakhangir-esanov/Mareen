@@ -13,4 +13,5 @@ public sealed class Booking : Auditable
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public Status Status { get; set; }
+    public ICollection<BookingItem> BookingItems { get; set; }
 }

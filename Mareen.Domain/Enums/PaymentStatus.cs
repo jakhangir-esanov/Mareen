@@ -2,6 +2,7 @@
 
 public enum PaymentStatus
 {
-    successful = 1,
-    failed
+    InProgress = 1,
+    Success,
+    Cenceled
 }

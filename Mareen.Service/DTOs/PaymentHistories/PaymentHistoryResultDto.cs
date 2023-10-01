@@ -12,6 +12,6 @@ public class PaymentHistoryResultDto
     public double Amount { get; set; }
     public PaymentType PaymentType { get; set; }
     public PaymentStatus PaymentStatus { get; set; }
-    public string Comment { get; set; }
+
 }
 

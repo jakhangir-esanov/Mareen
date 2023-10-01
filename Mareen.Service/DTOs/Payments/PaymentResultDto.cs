@@ -9,5 +9,7 @@ public class PaymentResultDto
     public double Amount { get; set; }
     public PaymentType PaymentType { get; set; }
     public Booking Booking { get; set; }
+    public Guest Guest { get; set; }
+    public PaymentStatus PaymentStatus { get; set; }
 }
 

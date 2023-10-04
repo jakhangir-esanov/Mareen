@@ -7,5 +7,4 @@ namespace Mareen.WebApi.Controllers;
 [ApiController]
 public class AuthController : ControllerBase
 {
-
 }

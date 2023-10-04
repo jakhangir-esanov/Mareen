@@ -2,6 +2,9 @@
 
 public class CustomException : Exception
 {
-    public CustomException(string message) : base(message) { }
-    public CustomException(string message, Exception innerException) : base(message, innerException) { }
+    public int StatusCode { get; set; }
+    public CustomException(int StatusCode, string message) : base(message)
+    {
+        this.StatusCode = StatusCode;
+    }
 }

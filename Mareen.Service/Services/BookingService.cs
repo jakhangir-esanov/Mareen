@@ -33,7 +33,7 @@ public class BookingService : IBookingService
         if (room is null)
             throw new NotFoundException("Room doesn't exist!");
         else if (room.IsFree == false)
-            throw new CustomException("Room already booked!");
+            throw new AlreadyExistException("Room already booked!");
 
         booking = await repository.SelectNoFilterAsync(x => x.GuestId.Equals(dto.GuestId));
         if (booking is not null)

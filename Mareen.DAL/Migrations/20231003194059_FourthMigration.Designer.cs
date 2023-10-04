@@ -4,6 +4,7 @@ using Mareen.DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mareen.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231003194059_FourthMigration")]
+    partial class FourthMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,9 +142,6 @@ namespace Mareen.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AttachmentId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -183,8 +183,6 @@ namespace Mareen.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AttachmentId");
 
                     b.ToTable("Guests");
                 });
@@ -352,9 +350,6 @@ namespace Mareen.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AttachmentId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -384,8 +379,6 @@ namespace Mareen.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AttachmentId");
 
                     b.HasIndex("HotelId");
 
@@ -433,9 +426,6 @@ namespace Mareen.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AttachmentId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -480,8 +470,6 @@ namespace Mareen.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttachmentId");
-
                     b.HasIndex("HotelId");
 
                     b.ToTable("Users");
@@ -523,17 +511,6 @@ namespace Mareen.DAL.Migrations
                     b.Navigation("Booking");
 
                     b.Navigation("Service");
-                });
-
-            modelBuilder.Entity("Mareen.Domain.Entities.Guest", b =>
-                {
-                    b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
-                        .WithMany()
-                        .HasForeignKey("AttachmentId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Attachment");
                 });
 
             modelBuilder.Entity("Mareen.Domain.Entities.Payment", b =>
@@ -584,38 +561,22 @@ namespace Mareen.DAL.Migrations
 
             modelBuilder.Entity("Mareen.Domain.Entities.Room", b =>
                 {
-                    b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
-                        .WithMany()
-                        .HasForeignKey("AttachmentId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Mareen.Domain.Entities.Hotel", "Hotel")
                         .WithMany("Rooms")
                         .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Attachment");
-
                     b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("Mareen.Domain.Entities.User", b =>
                 {
-                    b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
-                        .WithMany()
-                        .HasForeignKey("AttachmentId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Mareen.Domain.Entities.Hotel", "Hotel")
                         .WithMany("Employees")
                         .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Attachment");
 
                     b.Navigation("Hotel");
                 });

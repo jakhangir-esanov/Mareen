@@ -7,6 +7,7 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){ }
 
+    public DbSet<Attachment> Attachments { get; set; }
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<BookingItem> BookingsItems { get; set; }
     public DbSet<Guest> Guests { get; set; }
@@ -37,6 +38,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Hotel>()
             .HasMany(b => b.Rooms)
             .WithOne(b => b.Hotel)
+            .HasForeignKey(b => b.HotelId)
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Hotel>()

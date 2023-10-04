@@ -25,7 +25,7 @@ public class RoomService : IRoomService
         var rooms = await repository.SelectAll().ToListAsync();
         var hotel = await repository1.SelectAsync(x => x.Id.Equals(dto.HotelId));
         if (hotel.Capacity == rooms.Count())
-            throw new CustomException("Out of capacity. You couldn't add room!");
+            throw new AlreadyExistException("Out of capacity. You couldn't add room!");
 
         var room = await repository.SelectAsync(x => x.RoomNumber.Equals(dto.RoomNumber));
         if (room is not null)

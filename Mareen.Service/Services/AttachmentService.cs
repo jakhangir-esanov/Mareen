@@ -7,7 +7,7 @@ using Mareen.Service.Interfaces;
 
 namespace Mareen.Service.Services;
 
-internal class AttachmentService : IAttachmentService
+public class AttachmentService : IAttachmentService
 {
     private readonly IRepository<Attachment> repository;
     public AttachmentService(IRepository<Attachment> repository)

@@ -17,6 +17,8 @@ public static class ServiceCollection
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddAutoMapper(typeof(MappingProfile));
 
+        services.AddScoped<IAttachmentService, AttachmentService>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IBookingItemService, BookingItemService>();
         services.AddScoped<IBookingService, BookingService>();
         services.AddScoped<IGuestService, GuestService>();

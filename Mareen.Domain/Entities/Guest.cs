@@ -12,8 +12,9 @@ public sealed class Guest : Auditable
     public string Email { get; set; }
     public string Password { get; set;}
     public string Salt { get; set; }
-    public long AttachmentId { get; set; }
-    public Attachment Attachment { get; set; }
     public ICollection<PaymentHistory> Transactions { get; set; }
     public ICollection<Booking> Bookings { get;}
+
+    public long AttachmentId { get; set; }
+    public Attachment Attachment { get; set; }
 }

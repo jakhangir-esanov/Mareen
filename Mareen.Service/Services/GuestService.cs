@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Mareen.DAL.IRepositories;
 using Mareen.Domain.Entities;
+using Mareen.Service.DTOs.Attachments;
 using Mareen.Service.DTOs.Bookings;
 using Mareen.Service.DTOs.Guests;
 using Mareen.Service.DTOs.PaymentHistories;
@@ -13,12 +14,14 @@ namespace Mareen.Service.Services;
 
 public class GuestService : IGuestService
 {
+    private readonly IAttachmentService attachmentService;
     private readonly IRepository<Guest> repository;
     private readonly IMapper mapper;
-    public GuestService(IRepository<Guest> repository, IMapper mapper)
+    public GuestService(IRepository<Guest> repository, IMapper mapper, IAttachmentService attachmentService)
     {
         this.repository = repository;
         this.mapper = mapper;
+        this.attachmentService = attachmentService;
     }
 
     public async Task<GuestResultDto> AddAsync(GuestCreationDto dto)
@@ -104,5 +107,37 @@ public class GuestService : IGuestService
 
         var res = mapper.Map<IEnumerable<BookingResultDto>>(guest.Bookings);
         return res;
+    }
+
+    public async Task<GuestResultDto> ImageUploadAsync(long guestId, AttachmentCreationDto dto)
+    {
+        var guest = await this.repository.SelectAsync(x => x.Id.Equals(guestId))
+            ?? throw new NotFoundException("Not found!");
+
+        var createAttachment = await this.attachmentService.UploadAsync(dto);
+        guest.AttachmentId = createAttachment.Id;
+        guest.Attachment = createAttachment;
+
+        this.repository.Update(guest);
+        await this.repository.SaveAsync();
+
+        return mapper.Map<GuestResultDto>(guest); 
+    }
+
+    public async Task<GuestResultDto> ModifyImageAsync(long guestId, AttachmentCreationDto dto)
+    {
+        var guest = await this.repository.SelectAsync(x => x.Id.Equals(guestId))
+            ?? throw new NotFoundException("Not found!");
+
+        await this.attachmentService.RemoveAsync(guest.Attachment);
+
+        var createAttachment = await this.attachmentService.UploadAsync(dto);
+        guest.AttachmentId = createAttachment.Id;
+        guest.Attachment = createAttachment;
+
+        this.repository.Update(guest);
+        await this.repository.SaveAsync();
+
+        return mapper.Map<GuestResultDto>(guest);
     }
 }

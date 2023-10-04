@@ -15,6 +15,7 @@ public sealed class User : Auditable
     public Hotel Hotel { get; set; }
     public string Password { get; set; }
     public string Salt { get; set; }
+
     public long AttachmentId { get; set; }
     public Attachment Attachment { get; set; }
 }

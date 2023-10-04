@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Mareen.DAL.IRepositories;
 using Mareen.Domain.Entities;
+using Mareen.Service.DTOs.Attachments;
 using Mareen.Service.DTOs.Users;
 using Mareen.Service.Exceptions;
 using Mareen.Service.Interfaces;
@@ -10,12 +11,14 @@ namespace Mareen.Service.Services;
 
 public class UserService : IUserService
 {
+    private readonly IAttachmentService attachmentService;
     private readonly IRepository<User> repository;
     private readonly IMapper mapper;
-    public UserService(IRepository<User> repository, IMapper mapper)
+    public UserService(IRepository<User> repository, IMapper mapper, IAttachmentService attachmentService)
     {
         this.repository = repository;
         this.mapper = mapper;
+        this.attachmentService = attachmentService;
     }
 
     public async Task<UserResultDto> AddAsync(UserCreationDto dto)
@@ -79,5 +82,37 @@ public class UserService : IUserService
         var user = await repository.SelectAll().ToListAsync();
         var res = mapper.Map<IEnumerable<UserResultDto>>(user);
         return res;
+    }
+
+    public async Task<UserResultDto> ImageUploadAsync(long userId, AttachmentCreationDto dto)
+    {
+        var user = await this.repository.SelectAsync(x => x.Id.Equals(userId))
+            ?? throw new NotFoundException("Not found!");
+
+        var createAttachment = await this.attachmentService.UploadAsync(dto);
+        user.AttachmentId = createAttachment.Id;
+        user.Attachment = createAttachment;
+
+        this.repository.Update(user);
+        await this.repository.SaveAsync();
+
+        return mapper.Map<UserResultDto>(user);
+    }
+
+    public async Task<UserResultDto> ModifyImageAsync(long userId, AttachmentCreationDto dto)
+    {
+        var user = await this.repository.SelectAsync(x => x.Id.Equals(userId))
+            ?? throw new NotFoundException("Not found!");
+
+        await this.attachmentService.RemoveAsync(user.Attachment);
+
+        var createAttachment = await this.attachmentService.UploadAsync(dto);
+        user.AttachmentId = createAttachment.Id;
+        user.Attachment = createAttachment;
+
+        this.repository.Update(user);
+        await this.repository.SaveAsync();
+
+        return mapper.Map<UserResultDto>(user);
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mareen.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231003230004_SixthMigration")]
-    partial class SixthMigration
+    [Migration("20231004142926_InitailMigration")]
+    partial class InitailMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,10 +58,7 @@ namespace Mareen.DAL.Migrations
             modelBuilder.Entity("Mareen.Domain.Entities.Booking", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
@@ -296,7 +293,8 @@ namespace Mareen.DAL.Migrations
 
                     b.HasIndex("BookingId");
 
-                    b.HasIndex("GuestId");
+                    b.HasIndex("GuestId")
+                        .IsUnique();
 
                     b.ToTable("Payments");
                 });
@@ -304,10 +302,7 @@ namespace Mareen.DAL.Migrations
             modelBuilder.Entity("Mareen.Domain.Entities.PaymentHistory", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
@@ -338,11 +333,7 @@ namespace Mareen.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookingId");
-
                     b.HasIndex("GuestId");
-
-                    b.HasIndex("PaymentId");
 
                     b.ToTable("PaymentHistories");
                 });
@@ -388,7 +379,8 @@ namespace Mareen.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttachmentId");
+                    b.HasIndex("AttachmentId")
+                        .IsUnique();
 
                     b.HasIndex("HotelId");
 
@@ -498,6 +490,12 @@ namespace Mareen.DAL.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("Mareen.Domain.Entities.PaymentHistory", null)
+                        .WithOne("Booking")
+                        .HasForeignKey("Mareen.Domain.Entities.Booking", "Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Mareen.Domain.Entities.Room", "Room")
                         .WithMany()
                         .HasForeignKey("RoomId")
@@ -548,9 +546,9 @@ namespace Mareen.DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("Mareen.Domain.Entities.Guest", "Guest")
-                        .WithMany()
-                        .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("Mareen.Domain.Entities.Payment", "GuestId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Booking");
@@ -560,12 +558,6 @@ namespace Mareen.DAL.Migrations
 
             modelBuilder.Entity("Mareen.Domain.Entities.PaymentHistory", b =>
                 {
-                    b.HasOne("Mareen.Domain.Entities.Booking", "Booking")
-                        .WithMany()
-                        .HasForeignKey("BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Mareen.Domain.Entities.Guest", "Guest")
                         .WithMany("Transactions")
                         .HasForeignKey("GuestId")
@@ -573,12 +565,10 @@ namespace Mareen.DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("Mareen.Domain.Entities.Payment", "Payment")
-                        .WithMany()
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("Mareen.Domain.Entities.PaymentHistory", "Id")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Booking");
 
                     b.Navigation("Guest");
 
@@ -588,8 +578,8 @@ namespace Mareen.DAL.Migrations
             modelBuilder.Entity("Mareen.Domain.Entities.Room", b =>
                 {
                     b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
-                        .WithMany()
-                        .HasForeignKey("AttachmentId")
+                        .WithOne()
+                        .HasForeignKey("Mareen.Domain.Entities.Room", "AttachmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -640,6 +630,12 @@ namespace Mareen.DAL.Migrations
                     b.Navigation("Employees");
 
                     b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("Mareen.Domain.Entities.PaymentHistory", b =>
+                {
+                    b.Navigation("Booking")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -28,6 +28,12 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Guest>()
             .HasMany(b => b.Transactions)
             .WithOne(b => b.Guest)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Payment>()
+            .HasOne(b => b.Guest)
+            .WithOne()
+            .HasForeignKey<Payment>(b => b.GuestId)
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Guest>()
@@ -49,6 +55,24 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<PaymentHistory>()
             .HasOne(b => b.Guest)
             .WithMany(b => b.Transactions)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Attachment>()
+            .HasOne<Room>()
+            .WithOne(b => b.Attachment)
+            .HasForeignKey<Room>(b => b.AttachmentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Booking>()
+            .HasOne<PaymentHistory>()
+            .WithOne(b => b.Booking)
+            .HasForeignKey<Booking>(b => b.Id)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Payment>()
+            .HasOne<PaymentHistory>()
+            .WithOne(b => b.Payment)
+            .HasForeignKey<PaymentHistory>(b => b.Id)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }

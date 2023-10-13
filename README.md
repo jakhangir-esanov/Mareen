@@ -36,7 +36,7 @@ You can customize the application by configuring the following settings:
 
 ## License
 
-This project is licensed under the Appache - 2.0 License - see the [LICENSE](https://github.com/jakhangir-esanov/Mareen/blob/main/LICENSE) file for details.
+This project is licensed under the Apache - 2.0 License - see the [LICENSE](https://github.com/jakhangir-esanov/Mareen/blob/main/LICENSE) file for details.
 
 ## Acknowledgments
 

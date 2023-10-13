@@ -20,7 +20,24 @@ Mareen is a hotel automation system built with .NET C# that allows hotel owners 
 
 To get started with Mareen, follow these steps:
 
-1. Clone the repository to your local machine:
+Clone the repository to your local machine:
 
-   ```bash
+   ```
    git clone https://github.com/yourusername/mareen.git
+   ```
+
+## Configuration
+
+You can customize the application by configuring the following settings:
+
+1. **Database:** Configure the database connection string in appsettings.json to match your database setup.
+2. **Additional Services:** Add and manage additional services in the admin panel.
+3. **Employee Management:** Manage employees and their roles in the admin panel.
+
+## License
+
+This project is licensed under the Appache - 2.0 License - see the [LICENSE](https://github.com/jakhangir-esanov/Mareen/blob/main/LICENSE) file for details.
+
+## Acknowledgments
+
+- We would like to thank all our contributors and supporters for making Mareen a reality.

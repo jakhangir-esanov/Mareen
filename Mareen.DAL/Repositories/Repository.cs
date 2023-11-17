@@ -25,7 +25,7 @@ public class Repository<T> : IRepository<T> where T : Auditable
 
     public void Update(T entity)
     {
-        entity.UpdatedAt = DateTime.UtcNow;
+        entity.UpdatedAt = DateTime.Now;
         appDbContext.Entry(entity).State = EntityState.Modified;
     }
 

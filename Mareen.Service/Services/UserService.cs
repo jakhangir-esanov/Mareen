@@ -4,6 +4,7 @@ using Mareen.Domain.Entities;
 using Mareen.Service.DTOs.Attachments;
 using Mareen.Service.DTOs.Users;
 using Mareen.Service.Exceptions;
+using Mareen.Service.Helpers;
 using Mareen.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,7 +36,11 @@ public class UserService : IUserService
         }
         else
         {
+            var hashResult = PasswordHasher.Hash(dto.Password);
+
             user = mapper.Map<User>(dto);
+            user.Password = hashResult.Password;
+            user.Salt = hashResult.Salt;
             await repository.InsertAsync(user);
         }
         await repository.SaveAsync();

@@ -34,7 +34,7 @@ public class ServiceService : IServiceService
             service = mapper.Map<Domain.Entities.Service>(dto);
             await repository.InsertAsync(service);
         }
-        await repository.SelectAsync();
+        await repository.SaveAsync();
 
         var res = mapper.Map<ServiceResultDto>(service);
         return res;

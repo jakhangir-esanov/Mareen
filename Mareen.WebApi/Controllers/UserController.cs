@@ -2,9 +2,8 @@
 using Mareen.Service.DTOs.Users;
 using Mareen.Service.Interfaces;
 using Mareen.WebApi.Models;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Writers;
 
 namespace Mareen.WebApi.Controllers;
 
@@ -61,7 +60,7 @@ public class UserController : ControllerBase
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await this.userService.ModifyImageAsync(userId, dto) 
+            Data = await this.userService.ModifyImageAsync(userId, dto)
         });
 
     [HttpGet("get-by-id/{id:long}")]

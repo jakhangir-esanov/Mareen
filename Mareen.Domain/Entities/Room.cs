@@ -14,6 +14,6 @@ public sealed class Room : Auditable
     public string Description { get; set; }
     public bool IsFree { get; set; }
 
-    public long AttachmentId { get; set; }
+    public long? AttachmentId { get; set; }
     public Attachment Attachment { get; set; }
 }

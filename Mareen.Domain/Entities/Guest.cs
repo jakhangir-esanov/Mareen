@@ -15,6 +15,6 @@ public sealed class Guest : Auditable
     public ICollection<PaymentHistory> Transactions { get; set; }
     public ICollection<Booking> Bookings { get;}
 
-    public long AttachmentId { get; set; }
+    public long? AttachmentId { get; set; }
     public Attachment Attachment { get; set; }
 }

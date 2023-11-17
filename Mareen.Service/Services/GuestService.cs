@@ -6,6 +6,7 @@ using Mareen.Service.DTOs.Bookings;
 using Mareen.Service.DTOs.Guests;
 using Mareen.Service.DTOs.PaymentHistories;
 using Mareen.Service.Exceptions;
+using Mareen.Service.Helpers;
 using Mareen.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -38,7 +39,11 @@ public class GuestService : IGuestService
         }
         else
         {
+            var hashResult = PasswordHasher.Hash(dto.Password);
+
             guest = mapper.Map<Guest>(dto);
+            guest.Password = hashResult.Password;
+            guest.Salt = hashResult.Salt;
             await repository.InsertAsync(guest);
         }
         await repository.SaveAsync();

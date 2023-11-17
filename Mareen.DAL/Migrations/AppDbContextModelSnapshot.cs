@@ -136,7 +136,7 @@ namespace Mareen.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AttachmentId")
+                    b.Property<long?>("AttachmentId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
@@ -343,7 +343,8 @@ namespace Mareen.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AttachmentId")
+                    b.Property<long?>("AttachmentId")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
@@ -425,7 +426,7 @@ namespace Mareen.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AttachmentId")
+                    b.Property<long?>("AttachmentId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
@@ -527,9 +528,7 @@ namespace Mareen.DAL.Migrations
                 {
                     b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
                         .WithMany()
-                        .HasForeignKey("AttachmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AttachmentId");
 
                     b.Navigation("Attachment");
                 });
@@ -595,9 +594,7 @@ namespace Mareen.DAL.Migrations
                 {
                     b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
                         .WithMany()
-                        .HasForeignKey("AttachmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AttachmentId");
 
                     b.HasOne("Mareen.Domain.Entities.Hotel", "Hotel")
                         .WithMany("Employees")

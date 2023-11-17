@@ -87,7 +87,7 @@ namespace Mareen.DAL.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AttachmentId = table.Column<long>(type: "bigint", nullable: false),
+                    AttachmentId = table.Column<long>(type: "bigint", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -99,8 +99,7 @@ namespace Mareen.DAL.Migrations
                         name: "FK_Guests_Attachments_AttachmentId",
                         column: x => x.AttachmentId,
                         principalTable: "Attachments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -151,7 +150,7 @@ namespace Mareen.DAL.Migrations
                     HotelId = table.Column<long>(type: "bigint", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AttachmentId = table.Column<long>(type: "bigint", nullable: false),
+                    AttachmentId = table.Column<long>(type: "bigint", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -163,8 +162,7 @@ namespace Mareen.DAL.Migrations
                         name: "FK_Users_Attachments_AttachmentId",
                         column: x => x.AttachmentId,
                         principalTable: "Attachments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Users_Hotels_HotelId",
                         column: x => x.HotelId,

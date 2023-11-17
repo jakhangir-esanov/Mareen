@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mareen.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231004142926_InitailMigration")]
+    [Migration("20231005204154_InitailMigration")]
     partial class InitailMigration
     {
         /// <inheritdoc />
@@ -139,7 +139,7 @@ namespace Mareen.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AttachmentId")
+                    b.Property<long?>("AttachmentId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
@@ -346,7 +346,8 @@ namespace Mareen.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AttachmentId")
+                    b.Property<long?>("AttachmentId")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
@@ -428,7 +429,7 @@ namespace Mareen.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AttachmentId")
+                    b.Property<long?>("AttachmentId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
@@ -530,9 +531,7 @@ namespace Mareen.DAL.Migrations
                 {
                     b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
                         .WithMany()
-                        .HasForeignKey("AttachmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AttachmentId");
 
                     b.Navigation("Attachment");
                 });
@@ -598,9 +597,7 @@ namespace Mareen.DAL.Migrations
                 {
                     b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
                         .WithMany()
-                        .HasForeignKey("AttachmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AttachmentId");
 
                     b.HasOne("Mareen.Domain.Entities.Hotel", "Hotel")
                         .WithMany("Employees")

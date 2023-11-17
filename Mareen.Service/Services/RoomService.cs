@@ -4,6 +4,7 @@ using Mareen.Domain.Entities;
 using Mareen.Service.DTOs.Attachments;
 using Mareen.Service.DTOs.Rooms;
 using Mareen.Service.Exceptions;
+using Mareen.Service.Helpers;
 using Mareen.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

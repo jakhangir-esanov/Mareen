@@ -17,7 +17,7 @@ public class BookingController : ControllerBase
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> PostAsync(BookingCreationDto dto)
+    public async Task<IActionResult> CreateAsync(BookingCreationDto dto)
         => Ok(new Response
         {
             StatusCode = 200,
@@ -26,7 +26,7 @@ public class BookingController : ControllerBase
         });
 
     [HttpPut("update")]
-    public async Task<IActionResult> PutAsync(BookingUpdateDto dto)
+    public async Task<IActionResult> UpdateAsync(BookingUpdateDto dto)
         => Ok(new Response 
         {
             StatusCode = 200,

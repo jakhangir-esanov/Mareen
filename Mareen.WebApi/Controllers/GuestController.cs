@@ -2,9 +2,7 @@
 using Mareen.Service.DTOs.Guests;
 using Mareen.Service.Interfaces;
 using Mareen.WebApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.CompilerServices;
 
 namespace Mareen.WebApi.Controllers;
 
@@ -89,5 +87,14 @@ public class GuestController : ControllerBase
             StatusCode = 200,
             Message = "Success",
             Data = await this.guestService.RetrieveAllBookingsAsync(id)
+        });
+
+    [HttpGet("get-all")]
+    public async Task<IActionResult> GetAllGuestAsync()
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await this.guestService.RetrieveAllAsync()
         });
 }

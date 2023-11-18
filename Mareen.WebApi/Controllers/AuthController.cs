@@ -17,7 +17,7 @@ public class AuthController : ControllerBase
 
     [HttpPost("user/login")]
     public async Task<IActionResult> GenerateTokenForUserAsync(string email, string password)
-        => Ok(new Response 
+        => Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",

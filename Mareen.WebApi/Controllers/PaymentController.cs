@@ -35,7 +35,7 @@ public class PaymentController : ControllerBase
         });
 
     [HttpDelete("delete/{id:long}")]
-    public async Task<IActionResult> UpdateAsync(long id)
+    public async Task<IActionResult> DeleteAsync(long id)
         => Ok(new Response
         {
             StatusCode = 200,

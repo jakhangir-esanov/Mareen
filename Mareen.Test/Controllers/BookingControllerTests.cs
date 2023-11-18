@@ -97,4 +97,18 @@ public class BookingControllerTests
         Assert.NotNull(result);
         Assert.IsType<OkObjectResult>(result); 
     }
+
+    [Fact]
+    public async void ShouldGetAllBookingItemsSuccessfullyReturnStatusCodeOk()
+    {
+        //Arrange
+        long id = 1;
+
+        //Act
+        var result = await bookingController.GetAllBookingItemsAsync(id);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<OkObjectResult>(result);
+    }
 }

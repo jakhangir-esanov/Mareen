@@ -98,12 +98,40 @@ public class HotelControllerTests
     }
 
     [Fact]
-    public async void ShouldGetAllSuccessfullyReturnStatusCodeOk()
+    public async void ShouldGetAllHotelsSuccessfullyReturnStatusCodeOk()
     {
         //Arrange
 
         //Act
         var result = await hotelController.GetAllAsync();
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<OkObjectResult>(result);
+    }
+
+    [Fact]
+    public async void ShouldGetAllEmployeesSuccessfullyReturnStatusCodeOk()
+    {
+        //Arrange
+        long id = 1;
+
+        //Act
+        var result = await hotelController.GetAllEmployeesAsync(id);
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<OkObjectResult>(result);
+    }
+
+    [Fact]
+    public async void ShouldGetAllRoomsSuccessfullyReturnStatusCodeOk()
+    {
+        //Arrange
+        long id = 1;
+
+        //Act
+        var result = await hotelController.GetAllRoomsAsync(id);
 
         //Assert
         Assert.NotNull(result);

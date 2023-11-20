@@ -120,4 +120,29 @@ public class RoomService : room.roomBase
 
         return response;
     }
+
+    public override async Task<RoomGetAllAvailableResponse> GetAllAvailableAsync(RoomGetAllAvailableRequest request, ServerCallContext context)
+    {
+        var result = await roomService.RetrieveAllAvailableAsync();
+
+        var response = new RoomGetAllAvailableResponse();
+
+        foreach (var item in result)
+        {
+            var room = new RoomGetResponse
+            {
+                Id = item.Id,
+                Description = item.Description,
+                HotelId = item.Hotel.Id,
+                IsFree = item.IsFree,
+                Price = item.Price,
+                RoomNumber = item.RoomNumber,
+                RoomType = (int)item.RoomType
+            };
+
+            response.Sth.Add(room);
+        }
+
+        return response;
+    }
 }

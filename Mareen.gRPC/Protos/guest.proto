@@ -13,6 +13,8 @@ service guest
 	rpc DeleteAsync(GuestDeleteRequest) returns (GuestDeleteResponse);
 	rpc GetByIdAsync(GuestGetRequest) returns (GuestGetResponse);
 	rpc GetAllAsync(GuestGetAllRequest) returns (GuestGetAllResponse);
+	rpc GetAllPaymentHistoriesAsync(GuestGetAllPaymentHistoriesRequest) returns (GuestGetAllPaymentHistoriesResponse);
+	rpc GetAllBookingsAsync(GuestGetAllBookingsRequest) returns (GuestGetAllBookingsResponse);
 }
 
 message GuestCreationRequest
@@ -97,4 +99,46 @@ message GuestGetAllRequest
 message GuestGetAllResponse
 {
 	repeated GuestGetResponse sth = 1;
+}
+
+message GuestGetAllPaymentHistoriesRequest
+{
+	int64 id = 1;
+}
+
+message GuestGetPaymentHistoryResponse
+{
+	int64 id = 1;
+	int64 guestId = 2;
+	int64 bookingId = 3;
+	int64 paymentId = 4;
+	double amount = 5;
+	int32 paymentType = 6;
+	int32 paymentStatus = 7;
+}
+
+message GuestGetAllPaymentHistoriesResponse
+{
+	repeated GuestGetPaymentHistoryResponse sth = 1;
+}
+
+message GuestGetAllBookingsRequest
+{
+	int64 id = 1;
+}
+
+message GuestGetBookingResponse
+{
+	int64 id = 1;
+	int64 roomId = 2;
+	int64 guestId = 3;
+	double amount = 4;
+	google.protobuf.Timestamp startDate = 5;
+	google.protobuf.Timestamp endDate = 6;
+	int32 status = 7;
+}
+
+message GuestGetAllBookingsResponse
+{
+	repeated GuestGetBookingResponse sth = 1;
 }

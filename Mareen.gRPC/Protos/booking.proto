@@ -13,6 +13,7 @@ service booking
 	rpc DeleteAsync(BookingDeleteRequest) returns (BookingDeleteResponse);
 	rpc GetByIdAsync(BookingGetRequest) returns (BookingGetResponse);
 	rpc GetAllAsync(BookingGetAllResponse) returns (BookingGetAllResponse);
+	rpc GetAllBookingItemsAsync(BookingGetAllBookingItemsRequest) returns (BookingGetAllBookingItemsResponse);
 }
 
 message BookingCreationRequest
@@ -92,4 +93,22 @@ message BookingGetAllRequest
 message BookingGetAllResponse
 {
 	repeated BookingGetResponse sth = 1;
+}
+
+message BookingGetAllBookingItemsRequest
+{
+	int64 id = 1;
+}
+
+message BookingGetBookingItemsResponse
+{
+	int64 id = 1;
+	int64 serviceId = 2;
+	int32 quantity = 3;
+	int64 bookingId = 4;
+}
+
+message	 BookingGetAllBookingItemsResponse
+{
+	repeated BookingGetBookingItemsResponse sth = 1;
 }

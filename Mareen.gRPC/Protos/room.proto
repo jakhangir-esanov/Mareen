@@ -11,6 +11,7 @@ service room
 	rpc DeleteAsync(RoomDeleteRequest) returns (RoomDeleteResponse);
 	rpc GetByIdAsync(RoomGetRequest) returns (RoomGetResponse);
 	rpc GetAllAsync(RoomGetAllRequest) returns (RoomGetAllResponse);
+	rpc GetAllAvailableAsync(RoomGetAllAvailableRequest) returns (RoomGetAllAvailableResponse);
 }
 
 message RoomCreationRequest
@@ -88,6 +89,16 @@ message RoomGetAllRequest
 }
 
 message RoomGetAllResponse
+{
+	repeated RoomGetResponse sth = 1;
+}
+
+message RoomGetAllAvailableRequest
+{
+
+}
+
+message RoomGetAllAvailableResponse
 {
 	repeated RoomGetResponse sth = 1;
 }

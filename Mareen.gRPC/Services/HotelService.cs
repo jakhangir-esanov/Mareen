@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Mareen.Service.DTOs.Hotels;
 using Mareen.Service.Interfaces;
 
@@ -152,6 +153,62 @@ public class HotelService : hotel.hotelBase
             };
 
             response.Sth.Add(hotel);
+        }
+
+        return response;
+    }
+
+    public override async Task<HotelGetAllRoomsResponse> GetAllRoomsAsync(HotelGetAllRoomsRequest request, ServerCallContext context)
+    {
+        long hotelId = request.Id;
+
+        var result = await hotelService.RetrieveAllRoomsAsync(hotelId);
+
+        var response = new HotelGetAllRoomsResponse();
+
+        foreach (var item in result)
+        {
+            var room = new HotelGetRoomResponse
+            {
+                Id = item.Id,
+                Description = item.Description,
+                HotelId = item.Hotel.Id,
+                IsFree = item.IsFree,
+                Price = item.Price,
+                RoomNumber = item.RoomNumber,
+                RoomType = (int)item.RoomType
+            };
+
+            response.Sth.Add(room);
+        }
+
+        return response;
+    }
+
+    public override async Task<HotelGetAllEmployeesResponse> GetAllEmployeesAsync(HotelGetAllEmployeesRequest request, ServerCallContext context)
+    {
+        long hotelId = request.Id;
+
+        var result = await hotelService.RetrieveAllEmployeesAsync(hotelId);
+
+        var response = new HotelGetAllEmployeesResponse();
+
+        foreach(var item in result)
+        {
+            var employee = new HotelGetEmployeeResponse
+            {
+                Id = item.Id,
+                FirstName = item.FirstName,
+                LastName = item.LastName,
+                Email = item.Email,
+                PhoneNumber = item.PhoneNumber,
+                Password = item.Password,
+                DateOfBirth = item.DateOfBirth.ToUniversalTime().ToTimestamp(),
+                HotelId = item.Hotel.Id,
+                UserRole = (int)item.UserRole
+            };
+
+            response.Sth.Add(employee);
         }
 
         return response;

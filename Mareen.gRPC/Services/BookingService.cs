@@ -119,4 +119,28 @@ public class BookingService : booking.bookingBase
 
         return response;
     }
+
+    public override async Task<BookingGetAllBookingItemsResponse> GetAllBookingItemsAsync(BookingGetAllBookingItemsRequest request, ServerCallContext context)
+    {
+        long bookingId = request.Id;
+
+        var result = await bookingService.RetrieveAllBookingItemsAsync(bookingId);
+
+        var response = new BookingGetAllBookingItemsResponse();
+
+        foreach(var item in result)
+        {
+            var bookingItem = new BookingGetBookingItemsResponse
+            {
+                Id = item.Id,
+                BookingId = bookingId,
+                Quantity = item.Quantity,
+                ServiceId = item.Service.Id
+            };
+
+            response.Sth.Add(bookingItem);
+        }
+
+        return response;
+    }
 }

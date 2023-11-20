@@ -1,5 +1,5 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
+﻿using Grpc.Core;
+using Google.Protobuf.WellKnownTypes;
 using Mareen.Service.DTOs.Guests;
 using Mareen.Service.Interfaces;
 
@@ -123,6 +123,60 @@ public class GuestService : guest.guestBase
             };
 
             response.Sth.Add(guest);
+        }
+
+        return response;
+    }
+
+    public override async Task<GuestGetAllPaymentHistoriesResponse> GetAllPaymentHistoriesAsync(GuestGetAllPaymentHistoriesRequest request, ServerCallContext context)
+    {
+        long guestId = request.Id;
+
+        var result = await guestService.RetrieveAllPaymentHistoriesAsync(guestId);
+
+        var response = new GuestGetAllPaymentHistoriesResponse();
+
+        foreach (var item in result)
+        {
+            var paymentHistory = new GuestGetPaymentHistoryResponse
+            {
+                Id = item.Id,
+                Amount = item.Amount,
+                BookingId = item.Booking.Id,
+                GuestId = item.Guest.Id,
+                PaymentId = item.Payment.Id,
+                PaymentStatus = (int)item.PaymentStatus,
+                PaymentType = (int)item.PaymentType
+            };
+
+            response.Sth.Add(paymentHistory);
+        }
+
+        return response;
+    }
+
+    public override async Task<GuestGetAllBookingsResponse> GetAllBookingsAsync(GuestGetAllBookingsRequest request, ServerCallContext context)
+    {
+        long guestId = request.Id;
+
+        var result = await guestService.RetrieveAllBookingsAsync(guestId);
+
+        var response = new GuestGetAllBookingsResponse();
+
+        foreach (var item in result)
+        {
+            var booking = new GuestGetBookingResponse()
+            {
+                Id = item.Id,
+                Amount = item.Amount,
+                GuestId = item.Guest.Id,
+                RoomId = item.Room.Id,
+                StartDate = item.StartDate.ToUniversalTime().ToTimestamp(),
+                EndDate = item.EndDate.ToUniversalTime().ToTimestamp(),
+                Status = (int)item.Status
+            };
+
+            response.Sth.Add(booking);
         }
 
         return response;

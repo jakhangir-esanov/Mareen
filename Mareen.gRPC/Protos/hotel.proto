@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 option csharp_namespace = "Mareen.gRPC";
 
 package hotel;
@@ -11,6 +13,8 @@ service hotel
 	rpc DeleteAsync(HotelDeleteRequest) returns (HotelDeleteResponse);
 	rpc GetByIdAsync(HotelGetRequest) returns (HotelGetResponse);
 	rpc GetAllAsync(HotelGetAllRequest) returns (HotelGetAllResponse);
+	rpc GetAllRoomsAsync(HotelGetAllRoomsRequest) returns (HotelGetAllRoomsResponse);
+	rpc GetAllEmployeesAsync(HotelGetAllEmployeesRequest) returns (HotelGetAllEmployeesResponse);
 }
 
 message HotelCreationRequest
@@ -120,4 +124,48 @@ message HotelGetAllRequest
 message HotelGetAllResponse
 {
 	repeated HotelGetResponse sth = 1;
+}
+
+message HotelGetAllRoomsRequest
+{
+	int64 id = 1;
+}
+
+message HotelGetRoomResponse
+{
+	int64 id = 1;
+	int64 hotelId = 2;
+	int32 roomNumber = 3;
+	int32 roomType = 4;
+	double price = 5;
+	string description = 6;
+	bool isFree = 7;
+}
+
+message HotelGetAllRoomsResponse
+{
+	repeated HotelGetRoomResponse sth = 1;
+}
+
+message HotelGetAllEmployeesRequest
+{
+	int64 id = 1;
+}
+
+message HotelGetEmployeeResponse
+{
+	int64 id = 1;
+	string firstName = 2;
+	string lastName = 3;
+	google.protobuf.Timestamp dateOfBirth = 4;
+	string email = 5;
+	string phoneNumber = 6;
+	string password = 7;
+	int32 userRole = 8;
+	int64 hotelId = 9;
+}
+
+message HotelGetAllEmployeesResponse
+{
+	repeated HotelGetEmployeeResponse sth = 1;
 }

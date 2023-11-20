@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+option csharp_namespace = "Mareen.gRPC";
+
+package payment;
+
+service payment
+{
+	rpc CreateAsync(PaymentCreationRequest) returns (PaymentCreationResponse);
+	rpc UpdateAsync(PaymentUpdateRequest) returns (PaymentUpdateResponse);
+	rpc DeleteAsync(PaymentDeleteRequest) returns (PaymentDeleteResponse);
+	rpc GetByIdAsync(PaymentGetRequest) returns (PaymentGetResponse);
+	rpc GetAllAsync(PaymentGetAllRequest) returns (PaymentGetAllResponse);
+}
+
+message PaymentCreationRequest
+{
+	double amount = 1;
+	int32 paymentType = 2;
+	int64 bookingId = 3;
+	int64 guestId = 4;
+	int32 paymentStatus = 5;
+}
+
+message PaymentCreationResponse
+{
+	int64 id = 1;
+	double amount = 2;
+	int32 paymentType = 3;
+	int64 bookingId = 4;
+	int64 guestId = 5;
+	int32 paymentStatus = 6;
+}
+
+message PaymentUpdateRequest
+{
+	int64 id = 1;
+	double amount = 2;
+	int32 paymentType = 3;
+	int64 bookingId = 4;
+	int64 guestId = 5;
+	int32 paymentStatus = 6;
+}
+
+message PaymentUpdateResponse
+{
+	int64 id = 1;
+	double amount = 2;
+	int32 paymentType = 3;
+	int64 bookingId = 4;
+	int64 guestId = 5;
+	int32 paymentStatus = 6;
+}
+
+message PaymentDeleteRequest
+{
+	int64 id = 1;
+}
+
+message PaymentDeleteResponse
+{
+	bool isDelete = 1;
+}
+
+message PaymentGetRequest
+{
+	int64 id = 1;
+}
+
+message PaymentGetResponse
+{
+	int64 id = 1;
+	double amount = 2;
+	int32 paymentType = 3;
+	int64 bookingId = 4;
+	int64 guestId = 5;
+	int32 paymentStatus = 6;
+}
+
+message PaymentGetAllRequest
+{
+
+}
+
+message PaymentGetAllResponse
+{
+	repeated PaymentGetResponse sth = 1;
+}

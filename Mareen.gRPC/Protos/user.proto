@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Mareen.gRPC";
+
+package user;
+
+service user
+{
+	rpc CreateAsync(UserCreationRequest) returns (UserCreationResponse);
+	rpc UpdateAsync(UserUpdateRequest) returns (UserUpdateResponse);
+	rpc DeleteAsync(UserDeleteRequest) returns (UserDeleteResponse);
+	rpc GetByIdAsync(UserGetRequest) returns (UserGetResponse);
+	rpc GetAllAsync(UserGetAllRequest) returns (UserGetAllResponse);
+}
+
+message UserCreationRequest
+{
+	string firstName = 1;
+	string lastName = 2;
+	google.protobuf.Timestamp dateOfBirth = 3;
+	string email = 4;
+	string phoneNumber = 5;
+	string password = 6;
+	int32 userRole = 7;
+	int64 hotelId = 8;
+}
+
+message UserCreationResponse
+{
+	int64 id = 1;
+	string firstName = 2;
+	string lastName = 3;
+	google.protobuf.Timestamp dateOfBirth = 4;
+	string email = 5;
+	string phoneNumber = 6;
+	string password = 7;
+	int32 userRole = 8;
+	int64 hotelId = 9;
+}
+
+message UserUpdateRequest
+{
+	int64 id = 1;
+	string firstName = 2;
+	string lastName = 3;
+	google.protobuf.Timestamp dateOfBirth = 4;
+	string email = 5;
+	string phoneNumber = 6;
+	string password = 7;
+	int32 userRole = 8;
+	int64 hotelId = 9;
+}
+
+message UserUpdateResponse
+{
+	int64 id = 1;
+	string firstName = 2;
+	string lastName = 3;
+	google.protobuf.Timestamp dateOfBirth = 4;
+	string email = 5;
+	string phoneNumber = 6;
+	string password = 7;
+	int32 userRole = 8;
+	int64 hotelId = 9;
+}
+
+message UserDeleteRequest
+{
+	int64 id = 1;
+}
+
+message UserDeleteResponse
+{
+	bool isDelete = 1;
+}
+
+message UserGetRequest
+{
+	int64 id = 1;
+}
+
+message UserGetResponse
+{
+	int64 id = 1;
+	string firstName = 2;
+	string lastName = 3;
+	google.protobuf.Timestamp dateOfBirth = 4;
+	string email = 5;
+	string phoneNumber = 6;
+	string password = 7;
+	int32 userRole = 8;
+	int64 hotelId = 9;
+}
+
+message UserGetAllRequest
+{
+
+}
+
+message UserGetAllResponse
+{
+	repeated UserGetResponse sth = 1;
+}

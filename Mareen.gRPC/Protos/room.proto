@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+option csharp_namespace = "Mareen.gRPC";
+
+package room;
+
+service room
+{
+	rpc CreateAsync(RoomCreationRequest) returns (RoomCreationResponse);
+	rpc UpdateAsync(RoomUpdateRequest) returns (RoomUpdateResponse);
+	rpc DeleteAsync(RoomDeleteRequest) returns (RoomDeleteResponse);
+	rpc GetByIdAsync(RoomGetRequest) returns (RoomGetResponse);
+	rpc GetAllAsync(RoomGetAllRequest) returns (RoomGetAllResponse);
+}
+
+message RoomCreationRequest
+{
+	int64 hotelId = 1;
+	int32 roomNumber = 2;
+	int32 roomType = 3;
+	double price = 4;
+	string description = 5;
+	bool isFree = 6;
+}
+
+message RoomCreationResponse
+{
+	int64 id = 1;
+	int64 hotelId = 2;
+	int32 roomNumber = 3;
+	int32 roomType = 4;
+	double price = 5;
+	string description = 6;
+	bool isFree = 7;
+}
+
+message RoomUpdateRequest
+{
+	int64 id = 1;
+	int64 hotelId = 2;
+	int32 roomNumber = 3;
+	int32 roomType = 4;
+	double price = 5;
+	string description = 6;
+	bool isFree = 7;
+}
+
+message RoomUpdateResponse
+{
+	int64 id = 1;
+	int64 hotelId = 2;
+	int32 roomNumber = 3;
+	int32 roomType = 4;
+	double price = 5;
+	string description = 6;
+	bool isFree = 7;
+}
+
+message RoomDeleteRequest
+{
+	int64 id = 1;
+}
+
+message RoomDeleteResponse
+{
+	bool isDelete = 1;
+}
+
+message RoomGetRequest
+{
+	int64 id = 1;
+}
+
+message RoomGetResponse
+{
+	int64 id = 1;
+	int64 hotelId = 2;
+	int32 roomNumber = 3;
+	int32 roomType = 4;
+	double price = 5;
+	string description = 6;
+	bool isFree = 7;
+}
+
+message RoomGetAllRequest
+{
+
+}
+
+message RoomGetAllResponse
+{
+	repeated RoomGetResponse sth = 1;
+}

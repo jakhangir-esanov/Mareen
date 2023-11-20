@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+option csharp_namespace = "Mareen.gRPC";
+
+package paymentHistory;
+
+service paymentHistory
+{
+
+}
+
+message PaymentHistoryCreationRequest
+{
+	int64 guestId = 1;
+	int64 bookingId = 2;
+	int64 paymentId = 3;
+	double amount = 4;
+	int32 paymentType = 5;
+	int32 paymentStatus = 6;
+}
+
+message PaymentHistoryCreationResponse
+{
+	int64 id = 1;
+	int64 guestId = 2;
+	int64 bookingId = 3;
+	int64 paymentId = 4;
+	double amount = 5;
+	int32 paymentType = 6;
+	int32 paymentStatus = 7;
+}
+
+message PaymentHistoryUpdateRequest
+{
+	int64 id = 1;
+	int64 guestId = 2;
+	int64 bookingId = 3;
+	int64 paymentId = 4;
+	double amount = 5;
+	int32 paymentType = 6;
+	int32 paymentStatus = 7;
+}
+
+message PaymentHistoryUpdateResponse
+{
+	int64 id = 1;
+	int64 guestId = 2;
+	int64 bookingId = 3;
+	int64 paymentId = 4;
+	double amount = 5;
+	int32 paymentType = 6;
+	int32 paymentStatus = 7;
+}
+
+message PaymentHistoryDeleteRequest
+{
+	int64 id = 1;
+}
+
+message PaymentHistoryDeleteResponse
+{
+	bool isDelete = 1;
+}
+
+message PaymentHistoryGetRequest
+{
+	int64 id = 1;
+}
+
+message PaymentHistoryGetResponse
+{
+	int64 id = 1;
+	int64 guestId = 2;
+	int64 bookingId = 3;
+	int64 paymentId = 4;
+	double amount = 5;
+	int32 paymentType = 6;
+	int32 paymentStatus = 7;
+}
+
+message PaymentHistoryGetAllRequest
+{
+
+}
+
+message PaymentHistoryGetAllResponse
+{
+	repeated PaymentHistoryGetResponse sth = 1;
+}

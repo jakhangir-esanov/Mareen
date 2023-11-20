@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "Mareen.gRPC";
+
+package auth;
+
+service auth
+{
+	rpc GenerateTokenForUsersAsync(AuthCreationForUserRequest) returns (AuthCreationForUserResponse);
+	rpc GenerateTokenForGuestAsync(AuthCreationForGuestRequest) returns (AuthCreationForGuestResponse);
+}
+
+message AuthCreationForUserRequest
+{
+	string email = 1;
+	string password = 2;
+}
+
+message AuthCreationForUserResponse
+{
+	string token = 1;
+}
+
+message AuthCreationForGuestRequest
+{
+	string email = 1;
+	string password = 2;
+}
+
+message AuthCreationForGuestResponse
+{
+	string token = 1;
+}

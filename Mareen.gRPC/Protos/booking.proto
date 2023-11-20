@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Mareen.gRPC";
+
+package booking;
+
+service booking
+{
+	rpc CreateAsync(BookingCreationRequest) returns (BookingCreationResponse);
+	rpc UpdateAsync(BookingUpdateRequest) returns (BookingUpdateResponse);
+	rpc DeleteAsync(BookingDeleteRequest) returns (BookingDeleteResponse);
+	rpc GetByIdAsync(BookingGetRequest) returns (BookingGetResponse);
+	rpc GetAllAsync(BookingGetAllResponse) returns (BookingGetAllResponse);
+}
+
+message BookingCreationRequest
+{
+	int64 roomId = 1;
+	int64 guestId = 2;
+	double amount = 3;
+	google.protobuf.Timestamp startDate = 4;
+	google.protobuf.Timestamp endDate = 5;
+	int32 status = 6;
+}
+
+message BookingCreationResponse
+{
+	int64 id = 1;
+	int64 roomId = 2;
+	int64 guestId = 3;
+	double amount = 4;
+	google.protobuf.Timestamp startDate = 5;
+	google.protobuf.Timestamp endDate = 6;
+	int32 status = 7;
+}
+
+message BookingUpdateRequest
+{
+	int64 id = 1;
+	int64 roomId = 2;
+	int64 guestId = 3;
+	double amount = 4;
+	google.protobuf.Timestamp startDate = 5;
+	google.protobuf.Timestamp endDate = 6;
+	int32 status = 7;
+}
+
+message BookingUpdateResponse
+{
+	int64 id = 1;
+	int64 roomId = 2;
+	int64 guestId = 3;
+	double amount = 4;
+	google.protobuf.Timestamp startDate = 5;
+	google.protobuf.Timestamp endDate = 6;
+	int32 status = 7;
+}
+
+message BookingDeleteRequest
+{
+	int64 id = 1;
+}
+
+message BookingDeleteResponse
+{
+	bool isDelete = 1;
+}
+
+message BookingGetRequest
+{
+	int64 id = 1;
+}
+
+message BookingGetResponse
+{
+	int64 id = 1;
+	int64 roomId = 2;
+	int64 guestId = 3;
+	double amount = 4;
+	google.protobuf.Timestamp startDate = 5;
+	google.protobuf.Timestamp endDate = 6;
+	int32 status = 7;
+}
+
+message BookingGetAllRequest
+{
+
+}
+
+message BookingGetAllResponse
+{
+	repeated BookingGetResponse sth = 1;
+}

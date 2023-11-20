@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+option csharp_namespace = "Mareen.gRPC";
+
+package hotel;
+
+service hotel
+{
+	rpc CreateAsync(HotelCreationRequest) returns (HotelCreationResponse);
+	rpc UpdateAsync(HotelUpdateRequest) returns (HotelCreationResponse);
+	rpc DeleteAsync(HotelDeleteRequest) returns (HotelDeleteResponse);
+	rpc GetByIdAsync(HotelGetRequest) returns (HotelGetResponse);
+	rpc GetAllAsync(HotelGetAllRequest) returns (HotelGetAllResponse);
+}
+
+message HotelCreationRequest
+{
+	string hotelName = 1;
+	int32 rating = 2;
+	string address = 3;
+	string city = 4;
+	string state = 5;
+	string postalCode = 6;
+	string country = 7;
+	string phoneNumber = 8;
+	string email = 9;
+	string website = 10;
+	int32 capacity = 11;
+	string description = 12;
+}
+
+message HotelCreationResponse
+{
+	int64 id = 1;
+	string hotelName = 2;
+	int32 rating = 3;
+	string address = 4;
+	string city = 5;
+	string state = 6;
+	string postalCode = 7;
+	string country = 8;
+	string phoneNumber = 9;
+	string email = 10;
+	string website = 11;
+	int32 capacity = 12;
+	string description = 13;
+}
+
+message HotelUpdateRequest
+{
+	int64 id = 1;
+	string hotelName = 2;
+	int32 rating = 3;
+	string address = 4;
+	string city = 5;
+	string state = 6;
+	string postalCode = 7;
+	string country = 8;
+	string phoneNumber = 9;
+	string email = 10;
+	string website = 11;
+	int32 capacity = 12;
+	string description = 13;
+}
+
+message HotelUpdateResponse
+{
+	int64 id = 1;
+	string hotelName = 2;
+	int32 rating = 3;
+	string address = 4;
+	string city = 5;
+	string state = 6;
+	string postalCode = 7;
+	string country = 8;
+	string phoneNumber = 9;
+	string email = 10;
+	string website = 11;
+	int32 capacity = 12;
+	string description = 13;
+}
+
+message HotelDeleteRequest
+{
+	int64 id = 1;
+}
+
+message HotelDeleteResponse
+{
+	bool isDelete = 1;
+}
+
+message HotelGetRequest
+{
+	int64 id = 1;
+}
+
+message HotelGetResponse
+{
+	int64 id = 1;
+	string hotelName = 2;
+	int32 rating = 3;
+	string address = 4;
+	string city = 5;
+	string state = 6;
+	string postalCode = 7;
+	string country = 8;
+	string phoneNumber = 9;
+	string email = 10;
+	string website = 11;
+	int32 capacity = 12;
+	string description = 13;
+}
+
+message HotelGetAllRequest
+{
+
+}
+
+message HotelGetAllResponse
+{
+	repeated HotelGetResponse sth = 1;
+}

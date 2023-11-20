@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Mareen.gRPC";
+
+package guest;
+
+service guest
+{
+	rpc CreateAsync(GuestCreationRequest) returns (GuestCreationResponse);
+	rpc UpdateAsync(GuestUpdateRequest) returns (GuestUpdateResponse);
+	rpc DeleteAsync(GuestDeleteRequest) returns (GuestUpdateResponse);
+	rpc GetByIdAsync(GuestGetRequest) returns (GuestGetResponse);
+	rpc GetAllAsync(GuestGetAllRequest) returns (GuestGetAllResponse);
+}
+
+message GuestCreationRequest
+{
+	string firstName = 1;
+	string lastName = 2;
+	google.protobuf.Timestamp dateOfBirth = 3;
+	string passportDetails = 4;
+	string phoneNumber = 5;
+	string email = 6;
+	string password = 7;
+}
+
+message GuestCreationResponse
+{
+	int64 id = 1;
+	string firstName = 2;
+	string lastName = 3;
+	google.protobuf.Timestamp dateOfBirth = 4;
+	string passportDetails = 5;
+	string phoneNumber = 6;
+	string email = 7;
+	string password = 8;
+}
+
+message GuestUpdateRequest
+{
+	int64 id = 1;
+	string firstName = 2;
+	string lastName = 3;
+	google.protobuf.Timestamp dateOfBirth = 4;
+	string passportDetails = 5;
+	string phoneNumber = 6;
+	string email = 7;
+	string password = 8;
+}
+
+message GuestUpdateResponse
+{
+	int64 id = 1;
+	string firstName = 2;
+	string lastName = 3;
+	google.protobuf.Timestamp dateOfBirth = 4;
+	string passportDetails = 5;
+	string phoneNumber = 6;
+	string email = 7;
+	string password = 8;
+}
+
+message GuestDeleteRequest
+{
+	int64 id = 1;
+}
+
+message GuestDeleteResponse
+{
+	bool isDelete = 1;
+}
+
+message GuestGetRequest
+{
+	int64 id = 1;
+}
+
+message GuestGetResponse
+{
+	int64 id = 1;
+	string firstName = 2;
+	string lastName = 3;
+	google.protobuf.Timestamp dateOfBirth = 4;
+	string passportDetails = 5;
+	string phoneNumber = 6;
+	string email = 7;
+	string password = 8;
+}
+
+message GuestGetAllRequest
+{
+
+}
+
+message GuestGetAllResponse
+{
+	repeated GuestGetResponse sth = 1;
+}

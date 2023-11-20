@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mareen.Domain", "Mareen.Dom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mareen.Service", "Mareen.Service\Mareen.Service.csproj", "{121279FD-E89F-4C4A-BA7C-767404D05B5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mareen.Test", "Mareen.Test\Mareen.Test.csproj", "{72E22988-0F3A-4D70-8270-D346B116413B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mareen.Test", "Mareen.Test\Mareen.Test.csproj", "{72E22988-0F3A-4D70-8270-D346B116413B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mareen.gRPC", "Mareen.gRPC\Mareen.gRPC.csproj", "{22249A6D-3B9A-4F34-B236-D8D1C4BB03F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{72E22988-0F3A-4D70-8270-D346B116413B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72E22988-0F3A-4D70-8270-D346B116413B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72E22988-0F3A-4D70-8270-D346B116413B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22249A6D-3B9A-4F34-B236-D8D1C4BB03F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22249A6D-3B9A-4F34-B236-D8D1C4BB03F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22249A6D-3B9A-4F34-B236-D8D1C4BB03F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22249A6D-3B9A-4F34-B236-D8D1C4BB03F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

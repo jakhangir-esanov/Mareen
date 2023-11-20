@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+option csharp_namespace = "Mareen.gRPC";
+
+package bookingItem;
+
+service bookingItem
+{
+	rpc CreateAsync(BookingItemCreationRequest) returns (BookingItemCreationResponse);
+	rpc UpdateAsync(BookingItemUpdateRequest) returns (BookingItemUpdateResponse);
+	rpc DeleteAsync(BookingItemDeleteRequest) returns (BookingItemDeleteResponse);
+	rpc GetByIdAsync(BookingItemGetRequest) returns (BookingItemGetResponse);
+	rpc GetAllAsync(BookingItemGetAllRequest) returns (BookingItemGetAllResponse);
+}
+
+message BookingItemCreationRequest
+{
+	int64 serviceId = 1;
+	int32 quantity = 2;
+	int64 bookingId = 3;
+}
+
+message BookingItemCreationResponse
+{
+	int64 id = 1;
+	int64 serviceId = 2;
+	int32 quantity = 3;
+	int64 bookingId = 4;
+}
+
+message BookingItemUpdateRequest
+{
+	int64 id = 1;
+	int64 serviceId = 2;
+	int32 quantity = 3;
+	int64 bookingId = 4;
+}
+
+message BookingItemUpdateResponse
+{
+	int64 id = 1;
+	int64 serviceId = 2;
+	int32 quantity = 3;
+	int64 bookingId = 4;
+}
+
+message BookingItemDeleteRequest
+{
+	int64 id = 1;
+}
+
+message BookingItemDeleteResponse
+{
+	bool isDelete = 1;
+}
+
+message BookingItemGetRequest
+{
+	int64 id = 1;
+}
+
+message BookingItemGetResponse
+{
+	int64 id = 1;
+	int64 serviceId = 2;
+	int32 quantity = 3;
+	int64 bookingId = 4;
+}
+
+message BookingItemGetAllRequest
+{
+
+}
+
+message BookingItemGetAllResponse
+{
+	repeated BookingItemGetResponse sth = 1;
+}

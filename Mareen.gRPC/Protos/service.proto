@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+option csharp_namespace = "Mareen.gRPC";
+
+package service;
+
+service service
+{
+	rpc CreateAsync(ServiceCreationRequest) returns (ServiceCreationResponse);
+	rpc UpdateAsync(ServiceUpdateRequest) returns (ServiceUpdateResponse);
+	rpc DeleteAsync(ServiceDeleteRequest) returns (ServiceDeleteResponse);
+	rpc GetByIdAsync(ServiceGetRequest) returns (ServiceGetResponse);
+	rpc GetAllAsync(ServiceGetAllRequest) returns (ServiceGetAllResponse);
+}
+
+message ServiceCreationRequest
+{
+	string serviceName = 1;
+	double price = 2;
+	string description = 3;
+}
+
+message ServiceCreationResponse
+{
+	int64 id = 1;
+	string serviceName = 2;
+	double price = 3;
+	string description = 4;
+}
+
+message ServiceUpdateRequest
+{
+	int64 id = 1;
+	string serviceName = 2;
+	double price = 3;
+	string description = 4;
+}
+
+message ServiceUpdateResponse
+{
+	int64 id = 1;
+	string serviceName = 2;
+	double price = 3;
+	string description = 4;
+}
+
+message ServiceDeleteRequest
+{
+	int64 id = 1;
+}
+
+message ServiceDeleteResponse
+{
+	bool isDelete = 1;
+}
+
+message ServiceGetRequest
+{
+	int64 id = 1;
+}
+
+message ServiceGetResponse
+{
+	int64 id = 1;
+	string serviceName = 2;
+	double price = 3;
+	string description = 4;
+}
+
+message ServiceGetAllRequest
+{
+
+}
+
+message ServiceGetAllResponse
+{
+	repeated ServiceGetResponse sth = 1;
+}

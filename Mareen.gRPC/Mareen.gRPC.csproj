@@ -10,6 +10,7 @@
         <Protobuf Include="Protos\auth.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\booking.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\bookingItem.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\guest.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\user.proto" GrpcServices="Server" />
     </ItemGroup>
 	

@@ -1,6 +1,5 @@
-﻿using AutoMapper;
+﻿using Grpc.Core;
 using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
 using Mareen.Service.DTOs.Bookings;
 using Mareen.Service.Interfaces;
 
@@ -9,11 +8,9 @@ namespace Mareen.gRPC.Services;
 public class BookingService : booking.bookingBase
 {
     private readonly IBookingService bookingService;
-    private readonly IMapper mapper;
-    public BookingService(IBookingService bookingService, IMapper mapper)
+    public BookingService(IBookingService bookingService)
     {
         this.bookingService = bookingService;
-        this.mapper = mapper;
     }
 
     public override async Task<BookingCreationResponse> CreateAsync(BookingCreationRequest request, ServerCallContext context)
@@ -36,9 +33,90 @@ public class BookingService : booking.bookingBase
             Amount = result.Amount,
             RoomId = result.Room.Id,
             GuestId = result.Guest.Id,
-            StartDate = result.StartDate.ToTimestamp(), 
-            EndDate = result.EndDate.ToTimestamp(),     
+            StartDate = result.StartDate.ToUniversalTime().ToTimestamp(),
+            EndDate = result.EndDate.ToUniversalTime().ToTimestamp(),
             Status = (int)result.Status
         });
+    }
+
+    public override async Task<BookingUpdateResponse> UpdateAsync(BookingUpdateRequest request, ServerCallContext context)
+    {
+        var booking = new BookingUpdateDto()
+        {
+            Id = request.Id,
+            RoomId = request.RoomId,
+            GuestId = request.GuestId,
+            Amount = request.Amount,
+            StartDate = request.StartDate.ToDateTime(),
+            EndDate = request.EndDate.ToDateTime(),
+            Status = (Domain.Enums.Status)request.Status
+        };
+
+        var result = await bookingService.ModifyAsync(booking);
+
+        return await Task.FromResult(new BookingUpdateResponse
+        {
+            Id = result.Id,
+            Amount = result.Amount,
+            RoomId = result.Room.Id,
+            GuestId = result.Guest.Id,
+            StartDate = result.StartDate.ToUniversalTime().ToTimestamp(),
+            EndDate = result.EndDate.ToUniversalTime().ToTimestamp(),
+            Status = (int)result.Status
+        });
+    }
+
+    public override async Task<BookingDeleteResponse> DeleteAsync(BookingDeleteRequest request, ServerCallContext context)
+    {
+        long id = request.Id;
+
+        var result = await bookingService.RemoveAsync(id);
+
+        return await Task.FromResult(new BookingDeleteResponse
+        {
+            IsDelete = result
+        });
+    }
+
+    public override async Task<BookingGetResponse> GetByIdAsync(BookingGetRequest request, ServerCallContext context)
+    {
+        long id = request.Id;
+
+        var result = await bookingService.RetrieveByIdAsync(id);
+
+        return await Task.FromResult(new BookingGetResponse
+        {
+            Id = result.Id,
+            Amount = result.Amount,
+            RoomId = result.Room.Id,
+            GuestId = result.Guest.Id,
+            StartDate = result.StartDate.ToUniversalTime().ToTimestamp(),
+            EndDate = result.EndDate.ToUniversalTime().ToTimestamp(),
+            Status = (int)result.Status
+        });
+    }
+
+    public override async Task<BookingGetAllResponse> GetAllAsync(BookingGetAllResponse request, ServerCallContext context)
+    {
+        var result = await bookingService.RetrieveAllAsync();
+
+        var response = new BookingGetAllResponse();
+
+        foreach (var item in result)
+        {
+            var booking = new BookingGetResponse
+            {   
+                Id = item.Id,
+                Amount = item.Amount,
+                RoomId = item.Room.Id,
+                GuestId = item.Guest.Id,
+                StartDate = item.StartDate.ToUniversalTime().ToTimestamp(),
+                EndDate = item.EndDate.ToUniversalTime().ToTimestamp(),
+                Status = (int)item.Status
+            };
+            response.Sth.Add(booking);
+        }
+
+        return response;
     }
 }

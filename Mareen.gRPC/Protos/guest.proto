@@ -10,7 +10,7 @@ service guest
 {
 	rpc CreateAsync(GuestCreationRequest) returns (GuestCreationResponse);
 	rpc UpdateAsync(GuestUpdateRequest) returns (GuestUpdateResponse);
-	rpc DeleteAsync(GuestDeleteRequest) returns (GuestUpdateResponse);
+	rpc DeleteAsync(GuestDeleteRequest) returns (GuestDeleteResponse);
 	rpc GetByIdAsync(GuestGetRequest) returns (GuestGetResponse);
 	rpc GetAllAsync(GuestGetAllRequest) returns (GuestGetAllResponse);
 }

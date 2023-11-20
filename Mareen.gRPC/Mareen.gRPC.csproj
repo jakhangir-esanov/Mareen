@@ -11,6 +11,11 @@
 		<Protobuf Include="Protos\booking.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\bookingItem.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\guest.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\hotel.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\payment.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\paymentHistory.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\room.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\service.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\user.proto" GrpcServices="Server" />
     </ItemGroup>
 	

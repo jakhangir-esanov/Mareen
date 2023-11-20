@@ -7,7 +7,7 @@ package hotel;
 service hotel
 {
 	rpc CreateAsync(HotelCreationRequest) returns (HotelCreationResponse);
-	rpc UpdateAsync(HotelUpdateRequest) returns (HotelCreationResponse);
+	rpc UpdateAsync(HotelUpdateRequest) returns (HotelUpdateResponse);
 	rpc DeleteAsync(HotelDeleteRequest) returns (HotelDeleteResponse);
 	rpc GetByIdAsync(HotelGetRequest) returns (HotelGetResponse);
 	rpc GetAllAsync(HotelGetAllRequest) returns (HotelGetAllResponse);

@@ -6,7 +6,11 @@ package paymentHistory;
 
 service paymentHistory
 {
-
+	rpc CreateAsync(PaymentHistoryCreationRequest) returns (PaymentHistoryCreationResponse);
+	rpc UpdateAsync(PaymentHistoryUpdateRequest) returns (PaymentHistoryUpdateResponse);
+	rpc DeleteAsync(PaymentHistoryDeleteRequest) returns (PaymentHistoryDeleteResponse);
+	rpc GetByIdAsync(PaymentHistoryGetRequest) returns (PaymentHistoryGetResponse);
+	rpc GetAllAsync(PaymentHistoryGetAllRequest) returns (PaymentHistoryGetAllResponse);
 }
 
 message PaymentHistoryCreationRequest

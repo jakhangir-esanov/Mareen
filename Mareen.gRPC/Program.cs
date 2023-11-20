@@ -34,6 +34,12 @@ var app = builder.Build();
 app.MapGrpcService<AuthService>();
 app.MapGrpcService<BookingService>();
 app.MapGrpcService<BookingItemService>();
+app.MapGrpcService<GuestService>();
+app.MapGrpcService<HotelService>();
+app.MapGrpcService<PaymentService>();
+app.MapGrpcService<PaymentHistoryService>();
+app.MapGrpcService<RoomService>();
+app.MapGrpcService<ServiceService>();
 app.MapGrpcService<UserService>();
 
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");

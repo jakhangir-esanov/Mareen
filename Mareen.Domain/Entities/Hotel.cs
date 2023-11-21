@@ -18,5 +18,8 @@ public sealed class Hotel : Auditable
     public int Capacity { get; set; }
     public string Description { get; set; }
     public ICollection<Room> Rooms { get; set; }
-    public  ICollection<User> Employees { get;}
+    public ICollection<User> Employees { get;}
+
+    public ICollection<HotelAttachment> HotelAttachments { get; set; }
+    public ICollection<Attachment> Attachments { get; set; }
 }

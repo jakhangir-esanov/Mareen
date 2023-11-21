@@ -1,4 +1,5 @@
 using Mareen.DAL.Contexts;
+using Mareen.Service.Helpers;
 using Mareen.WebApi.Exceptions;
 using Mareen.WebApi.Middlewares;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,9 @@ builder.Services.ConfigureSwagger();
 //AppDbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//PathRoot
+PathHelper.WebRootPath = Path.GetFullPath("wwwroot");
 
 //Logger
 var logger = new LoggerConfiguration()

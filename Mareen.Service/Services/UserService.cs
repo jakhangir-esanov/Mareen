@@ -94,6 +94,9 @@ public class UserService : IUserService
         var user = await this.repository.SelectAsync(x => x.Id.Equals(userId))
             ?? throw new NotFoundException("Not found!");
 
+        if (user.AttachmentId is not null)
+            throw new AlreadyExistException("Attachment already exist!");
+
         var createAttachment = await this.attachmentService.UploadAsync(dto);
         user.AttachmentId = createAttachment.Id;
         user.Attachment = createAttachment;
@@ -109,7 +112,10 @@ public class UserService : IUserService
         var user = await this.repository.SelectAsync(x => x.Id.Equals(userId))
             ?? throw new NotFoundException("Not found!");
 
-        await this.attachmentService.RemoveAsync(user.Attachment);
+        long attachmentId = user.AttachmentId
+            ?? throw new NotFoundException("Attachment was not found!");
+
+        await this.attachmentService.RemoveAsync(attachmentId);
 
         var createAttachment = await this.attachmentService.UploadAsync(dto);
         user.AttachmentId = createAttachment.Id;

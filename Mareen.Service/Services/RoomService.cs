@@ -102,36 +102,4 @@ public class RoomService : IRoomService
         var res = mapper.Map<IEnumerable<RoomResultDto>>(room);
         return res;
     }
-
-    public async Task<RoomResultDto> ImageUploadAsync(long roomId, AttachmentCreationDto dto)
-    {
-        var room = await this.repository.SelectAsync(x => x.Id.Equals(roomId))
-            ?? throw new NotFoundException("Not found!");
-
-        var createAttachment = await this.attachmentService.UploadAsync(dto);
-        room.AttachmentId = createAttachment.Id;
-        room.Attachment = createAttachment;
-
-        this.repository.Update(room);
-        await this.repository.SaveAsync();
-
-        return mapper.Map<RoomResultDto>(room);
-    }
-
-    public async Task<RoomResultDto> ModifyImageAsync(long roomId, AttachmentCreationDto dto)
-    {
-        var room = await this.repository.SelectAsync(x => x.Id.Equals(roomId))
-            ?? throw new NotFoundException("Not found!");
-
-        await this.attachmentService.RemoveAsync(room.Attachment);
-
-        var createAttachment = await this.attachmentService.UploadAsync(dto);
-        room.AttachmentId = createAttachment.Id;
-        room.Attachment = createAttachment;
-
-        this.repository.Update(room);
-        await this.repository.SaveAsync();
-
-        return mapper.Map<RoomResultDto>(room);
-    }
 }

@@ -119,6 +119,9 @@ public class GuestService : IGuestService
         var guest = await this.repository.SelectAsync(x => x.Id.Equals(guestId))
             ?? throw new NotFoundException("Not found!");
 
+        if (guest.AttachmentId is not null)
+            throw new AlreadyExistException("Attachment already exist!");
+
         var createAttachment = await this.attachmentService.UploadAsync(dto);
         guest.AttachmentId = createAttachment.Id;
         guest.Attachment = createAttachment;
@@ -134,7 +137,10 @@ public class GuestService : IGuestService
         var guest = await this.repository.SelectAsync(x => x.Id.Equals(guestId))
             ?? throw new NotFoundException("Not found!");
 
-        await this.attachmentService.RemoveAsync(guest.Attachment);
+        long attachmentId = guest.AttachmentId
+                   ?? throw new NotFoundException("Attachment was not found!");
+
+        await this.attachmentService.RemoveAsync(attachmentId);
 
         var createAttachment = await this.attachmentService.UploadAsync(dto);
         guest.AttachmentId = createAttachment.Id;

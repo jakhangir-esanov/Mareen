@@ -41,13 +41,28 @@ namespace Mareen.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("HotelId")
+                        .HasColumnType("bigint");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<long?>("RoomId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ServiceId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HotelId");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("Attachments");
                 });
@@ -254,6 +269,29 @@ namespace Mareen.DAL.Migrations
                     b.ToTable("Hotels");
                 });
 
+            modelBuilder.Entity("Mareen.Domain.Entities.HotelAttachment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("AttachmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("HotelId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("HotelAttachments");
+                });
+
             modelBuilder.Entity("Mareen.Domain.Entities.Payment", b =>
                 {
                     b.Property<long>("Id")
@@ -343,10 +381,6 @@ namespace Mareen.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("AttachmentId")
-                        .IsRequired()
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -377,12 +411,32 @@ namespace Mareen.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttachmentId")
-                        .IsUnique();
-
                     b.HasIndex("HotelId");
 
                     b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("Mareen.Domain.Entities.RoomAttachment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("AttachmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("RoomId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomAttachments");
                 });
 
             modelBuilder.Entity("Mareen.Domain.Entities.Service", b =>
@@ -416,6 +470,29 @@ namespace Mareen.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("Mareen.Domain.Entities.ServiceAttachment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("AttachmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ServiceId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("ServiceAttachments");
                 });
 
             modelBuilder.Entity("Mareen.Domain.Entities.User", b =>
@@ -480,6 +557,21 @@ namespace Mareen.DAL.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Mareen.Domain.Entities.Attachment", b =>
+                {
+                    b.HasOne("Mareen.Domain.Entities.Hotel", null)
+                        .WithMany("Attachments")
+                        .HasForeignKey("HotelId");
+
+                    b.HasOne("Mareen.Domain.Entities.Room", null)
+                        .WithMany("Attachments")
+                        .HasForeignKey("RoomId");
+
+                    b.HasOne("Mareen.Domain.Entities.Service", null)
+                        .WithMany("Attachments")
+                        .HasForeignKey("ServiceId");
+                });
+
             modelBuilder.Entity("Mareen.Domain.Entities.Booking", b =>
                 {
                     b.HasOne("Mareen.Domain.Entities.Guest", "Guest")
@@ -533,6 +625,25 @@ namespace Mareen.DAL.Migrations
                     b.Navigation("Attachment");
                 });
 
+            modelBuilder.Entity("Mareen.Domain.Entities.HotelAttachment", b =>
+                {
+                    b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
+                        .WithMany("HotelAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mareen.Domain.Entities.Hotel", "Hotel")
+                        .WithMany("HotelAttachments")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("Hotel");
+                });
+
             modelBuilder.Entity("Mareen.Domain.Entities.Payment", b =>
                 {
                     b.HasOne("Mareen.Domain.Entities.Booking", "Booking")
@@ -573,21 +684,51 @@ namespace Mareen.DAL.Migrations
 
             modelBuilder.Entity("Mareen.Domain.Entities.Room", b =>
                 {
-                    b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
-                        .WithOne()
-                        .HasForeignKey("Mareen.Domain.Entities.Room", "AttachmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Mareen.Domain.Entities.Hotel", "Hotel")
                         .WithMany("Rooms")
                         .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.Navigation("Hotel");
+                });
+
+            modelBuilder.Entity("Mareen.Domain.Entities.RoomAttachment", b =>
+                {
+                    b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
+                        .WithMany("RoomAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mareen.Domain.Entities.Room", "Room")
+                        .WithMany("RoomAttachments")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Attachment");
 
-                    b.Navigation("Hotel");
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Mareen.Domain.Entities.ServiceAttachment", b =>
+                {
+                    b.HasOne("Mareen.Domain.Entities.Attachment", "Attachment")
+                        .WithMany("ServiceAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mareen.Domain.Entities.Service", "Service")
+                        .WithMany("ServiceAttachments")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("Mareen.Domain.Entities.User", b =>
@@ -607,6 +748,15 @@ namespace Mareen.DAL.Migrations
                     b.Navigation("Hotel");
                 });
 
+            modelBuilder.Entity("Mareen.Domain.Entities.Attachment", b =>
+                {
+                    b.Navigation("HotelAttachments");
+
+                    b.Navigation("RoomAttachments");
+
+                    b.Navigation("ServiceAttachments");
+                });
+
             modelBuilder.Entity("Mareen.Domain.Entities.Booking", b =>
                 {
                     b.Navigation("BookingItems");
@@ -621,7 +771,11 @@ namespace Mareen.DAL.Migrations
 
             modelBuilder.Entity("Mareen.Domain.Entities.Hotel", b =>
                 {
+                    b.Navigation("Attachments");
+
                     b.Navigation("Employees");
+
+                    b.Navigation("HotelAttachments");
 
                     b.Navigation("Rooms");
                 });
@@ -630,6 +784,20 @@ namespace Mareen.DAL.Migrations
                 {
                     b.Navigation("Booking")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Mareen.Domain.Entities.Room", b =>
+                {
+                    b.Navigation("Attachments");
+
+                    b.Navigation("RoomAttachments");
+                });
+
+            modelBuilder.Entity("Mareen.Domain.Entities.Service", b =>
+                {
+                    b.Navigation("Attachments");
+
+                    b.Navigation("ServiceAttachments");
                 });
 #pragma warning restore 612, 618
         }

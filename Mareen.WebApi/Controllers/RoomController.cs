@@ -44,24 +44,6 @@ public class RoomController : ControllerBase
             Data = await this.roomService.RemoveAsync(id)
         });
 
-    [HttpPost("image-upload")]
-    public async Task<IActionResult> ImageUploadAsync(long roomId, [FromForm] AttachmentCreationDto dto)
-        => Ok(new Response
-        {
-            StatusCode = 200,
-            Message = "Success",
-            Data = await this.roomService.ImageUploadAsync(roomId, dto)
-        });
-
-    [HttpPost("update-image")]
-    public async Task<IActionResult> ModifyImageAsync(long roomId, [FromForm] AttachmentCreationDto dto)
-        => Ok(new Response
-        {
-            StatusCode = 200,
-            Message = "Success",
-            Data = await this.roomService.ModifyImageAsync(roomId, dto)
-        });
-
     [HttpGet("get-by-id/{id:long}")]
     public async Task<IActionResult> GetByIdAsync(long id)
         => Ok(new Response

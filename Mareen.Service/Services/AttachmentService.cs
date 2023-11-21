@@ -1,6 +1,7 @@
 ﻿using Mareen.DAL.IRepositories;
 using Mareen.Domain.Entities;
 using Mareen.Service.DTOs.Attachments;
+using Mareen.Service.Exceptions;
 using Mareen.Service.Extentions;
 using Mareen.Service.Helpers;
 using Mareen.Service.Interfaces;
@@ -40,10 +41,16 @@ public class AttachmentService : IAttachmentService
         return createdAttachment;
     }
 
-    public async Task<bool> RemoveAsync(Attachment attachment)
+    public async Task<bool> RemoveAsync(long attachmentId)
     {
+        var attachment = await repository.SelectNoFilterAsync(x => x.Id.Equals(attachmentId))
+            ?? throw new NotFoundException("Attachment was not found!");
+
+        File.Delete(attachment.FilePath);
+
         this.repository.Drop(attachment);
         await this.repository.SaveAsync();
+
         return true;
     }
 }

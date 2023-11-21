@@ -6,28 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Mareen.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitailMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Attachments",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attachments", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Hotels",
                 columns: table => new
@@ -74,6 +57,67 @@ namespace Mareen.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Rooms",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HotelId = table.Column<long>(type: "bigint", nullable: false),
+                    RoomNumber = table.Column<int>(type: "int", nullable: false),
+                    RoomType = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsFree = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rooms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Rooms_Hotels_HotelId",
+                        column: x => x.HotelId,
+                        principalTable: "Hotels",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Attachments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HotelId = table.Column<long>(type: "bigint", nullable: true),
+                    RoomId = table.Column<long>(type: "bigint", nullable: true),
+                    ServiceId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attachments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Attachments_Hotels_HotelId",
+                        column: x => x.HotelId,
+                        principalTable: "Hotels",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Attachments_Rooms_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Rooms",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Attachments_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Guests",
                 columns: table => new
                 {
@@ -103,36 +147,81 @@ namespace Mareen.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rooms",
+                name: "HotelAttachments",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HotelId = table.Column<long>(type: "bigint", nullable: false),
-                    RoomNumber = table.Column<int>(type: "int", nullable: false),
-                    RoomType = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsFree = table.Column<bool>(type: "bit", nullable: false),
-                    AttachmentId = table.Column<long>(type: "bigint", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    AttachmentId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rooms", x => x.Id);
+                    table.PrimaryKey("PK_HotelAttachments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rooms_Attachments_AttachmentId",
+                        name: "FK_HotelAttachments_Attachments_AttachmentId",
                         column: x => x.AttachmentId,
                         principalTable: "Attachments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Rooms_Hotels_HotelId",
+                        name: "FK_HotelAttachments_Hotels_HotelId",
                         column: x => x.HotelId,
                         principalTable: "Hotels",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoomAttachments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomId = table.Column<long>(type: "bigint", nullable: false),
+                    AttachmentId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomAttachments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RoomAttachments_Attachments_AttachmentId",
+                        column: x => x.AttachmentId,
+                        principalTable: "Attachments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RoomAttachments_Rooms_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Rooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ServiceAttachments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ServiceId = table.Column<long>(type: "bigint", nullable: false),
+                    AttachmentId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiceAttachments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ServiceAttachments_Attachments_AttachmentId",
+                        column: x => x.AttachmentId,
+                        principalTable: "Attachments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ServiceAttachments_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -292,6 +381,21 @@ namespace Mareen.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Attachments_HotelId",
+                table: "Attachments",
+                column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachments_RoomId",
+                table: "Attachments",
+                column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachments_ServiceId",
+                table: "Attachments",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Bookings_GuestId",
                 table: "Bookings",
                 column: "GuestId");
@@ -317,6 +421,16 @@ namespace Mareen.DAL.Migrations
                 column: "AttachmentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HotelAttachments_AttachmentId",
+                table: "HotelAttachments",
+                column: "AttachmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotelAttachments_HotelId",
+                table: "HotelAttachments",
+                column: "HotelId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PaymentHistories_GuestId",
                 table: "PaymentHistories",
                 column: "GuestId");
@@ -333,15 +447,29 @@ namespace Mareen.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rooms_AttachmentId",
-                table: "Rooms",
-                column: "AttachmentId",
-                unique: true);
+                name: "IX_RoomAttachments_AttachmentId",
+                table: "RoomAttachments",
+                column: "AttachmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoomAttachments_RoomId",
+                table: "RoomAttachments",
+                column: "RoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
                 column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServiceAttachments_AttachmentId",
+                table: "ServiceAttachments",
+                column: "AttachmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServiceAttachments_ServiceId",
+                table: "ServiceAttachments",
+                column: "ServiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_AttachmentId",
@@ -365,6 +493,26 @@ namespace Mareen.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_Attachments_Hotels_HotelId",
+                table: "Attachments");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Rooms_Hotels_HotelId",
+                table: "Rooms");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Attachments_Rooms_RoomId",
+                table: "Attachments");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Bookings_Rooms_RoomId",
+                table: "Bookings");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Attachments_Services_ServiceId",
+                table: "Attachments");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Bookings_Guests_GuestId",
                 table: "Bookings");
 
@@ -384,13 +532,31 @@ namespace Mareen.DAL.Migrations
                 name: "BookingsItems");
 
             migrationBuilder.DropTable(
+                name: "HotelAttachments");
+
+            migrationBuilder.DropTable(
+                name: "RoomAttachments");
+
+            migrationBuilder.DropTable(
+                name: "ServiceAttachments");
+
+            migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Hotels");
+
+            migrationBuilder.DropTable(
+                name: "Rooms");
 
             migrationBuilder.DropTable(
                 name: "Services");
 
             migrationBuilder.DropTable(
                 name: "Guests");
+
+            migrationBuilder.DropTable(
+                name: "Attachments");
 
             migrationBuilder.DropTable(
                 name: "PaymentHistories");
@@ -400,15 +566,6 @@ namespace Mareen.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Bookings");
-
-            migrationBuilder.DropTable(
-                name: "Rooms");
-
-            migrationBuilder.DropTable(
-                name: "Attachments");
-
-            migrationBuilder.DropTable(
-                name: "Hotels");
         }
     }
 }

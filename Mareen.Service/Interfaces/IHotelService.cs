@@ -1,4 +1,5 @@
-﻿using Mareen.Service.DTOs.Hotels;
+﻿using Mareen.Service.DTOs.Attachments;
+using Mareen.Service.DTOs.Hotels;
 using Mareen.Service.DTOs.Rooms;
 using Mareen.Service.DTOs.Users;
 
@@ -13,4 +14,6 @@ public interface IHotelService
     Task<IEnumerable<HotelResultDto>> RetrieveAllAsync();
     Task<IEnumerable<RoomResultDto>> RetrieveAllRoomsAsync(long hotelId);
     Task<IEnumerable<UserResultDto>> RetrieveAllEmployeesAsync(long hotelId);
+    Task<HotelResultDto> ImageUploadAsync(long hotelId, AttachmentCreationDto dto);
+    Task<HotelResultDto> ModifyImageAsync(long hotelId, long attachmentId, AttachmentCreationDto dto);
 }

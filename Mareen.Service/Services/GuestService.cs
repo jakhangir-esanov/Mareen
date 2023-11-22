@@ -140,9 +140,8 @@ public class GuestService : IGuestService
         long attachmentId = guest.AttachmentId
                    ?? throw new NotFoundException("Attachment was not found!");
 
-        await this.attachmentService.RemoveAsync(attachmentId);
+        var createAttachment = await this.attachmentService.ModifyAsync("Guest", attachmentId, dto);
 
-        var createAttachment = await this.attachmentService.UploadAsync("GuestFile", dto);
         guest.AttachmentId = createAttachment.Id;
         guest.Attachment = createAttachment;
 

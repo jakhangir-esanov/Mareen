@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mareen.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231121235311_InitialMigration")]
+    [Migration("20231122143218_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

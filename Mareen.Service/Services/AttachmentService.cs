@@ -41,6 +41,34 @@ public class AttachmentService : IAttachmentService
         return createdAttachment;
     }
 
+    public async Task<Attachment> ModifyAsync(string dirName, long attachmentId, AttachmentCreationDto dto)
+    {
+        var attachment = await repository.SelectNoFilterAsync(x => x.Id.Equals(attachmentId))
+            ?? throw new NotFoundException("Attachment was not found!");
+
+        File.Delete(attachment.FilePath);
+
+        var webrootPath = Path.Combine(PathHelper.WebRootPath, dirName);
+
+        if (!Directory.Exists(webrootPath))
+            Directory.CreateDirectory(webrootPath);
+
+        var fileExtension = Path.GetExtension(dto.FormFile.FileName);
+        var fileName = $"{Guid.NewGuid().ToString("N")}{fileExtension}";
+        var fullPath = Path.Combine(webrootPath, fileName);
+
+        var fileStream = new FileStream(fullPath, FileMode.OpenOrCreate);
+        await fileStream.WriteAsync(dto.FormFile.ToByte());
+
+        attachment.FileName = fileName;
+        attachment.FilePath = fullPath;
+
+        this.repository.Update(attachment);
+        await this.repository.SaveAsync();
+
+        return attachment;
+    }
+
     public async Task<bool> RemoveAsync(long attachmentId)
     {
         var attachment = await repository.SelectNoFilterAsync(x => x.Id.Equals(attachmentId))

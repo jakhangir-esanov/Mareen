@@ -7,4 +7,5 @@ public interface IAttachmentService
 {
     Task<Attachment> UploadAsync(string dirName, AttachmentCreationDto dto);
     Task<bool> RemoveAsync(long attachmentId);
+    Task<Attachment> ModifyAsync(string dirName, long attachmentId, AttachmentCreationDto dto);
 }

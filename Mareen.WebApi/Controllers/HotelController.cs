@@ -1,4 +1,5 @@
-﻿using Mareen.Service.DTOs.Hotels;
+﻿using Mareen.Service.DTOs.Attachments;
+using Mareen.Service.DTOs.Hotels;
 using Mareen.Service.Interfaces;
 using Mareen.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -77,5 +78,23 @@ public class HotelController : ControllerBase
             StatusCode = 200,
             Message = "Success",
             Data = await this.hotelService.RetrieveAllRoomsAsync(id)
+        });
+
+    [HttpPost("image-upload")]
+    public async Task<IActionResult> ImageUploadAsync(long hotelId, [FromForm] AttachmentCreationDto dto)
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await this.hotelService.ImageUploadAsync(hotelId, dto)
+        });
+
+    [HttpPut("update-image")]
+    public async Task<IActionResult> UpdateImageAsync(long hotelId, long attachmentId, [FromForm] AttachmentCreationDto dto)
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await this.hotelService.ModifyImageAsync(hotelId, attachmentId, dto)
         });
 }

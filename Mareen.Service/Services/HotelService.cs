@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Mareen.DAL.IRepositories;
 using Mareen.Domain.Entities;
+using Mareen.Service.DTOs.Attachments;
+using Mareen.Service.DTOs.HotelAttachments;
 using Mareen.Service.DTOs.Hotels;
 using Mareen.Service.DTOs.Rooms;
 using Mareen.Service.DTOs.Users;
@@ -14,11 +16,18 @@ namespace Mareen.Service.Services;
 public class HotelService : IHotelService
 {
     private readonly IRepository<Hotel> repository;
+    private readonly IRepository<HotelAttachment> hotelAttachmentRepository;
+    private readonly IAttachmentService attachmentService;
+    private readonly IHotelAttachmentService hotelAttachmentService;
     private readonly IMapper mapper;
-    public HotelService(IRepository<Hotel> repository, IMapper mapper)
+    public HotelService(IRepository<Hotel> repository, IMapper mapper, IRepository<HotelAttachment> hotelAttachmentRepository, 
+        IAttachmentService attachmentService, IHotelAttachmentService hotelAttachmentService)
     {
         this.repository = repository;
         this.mapper = mapper;
+        this.hotelAttachmentRepository = hotelAttachmentRepository;
+        this.attachmentService = attachmentService;
+        this.hotelAttachmentService = hotelAttachmentService;
     }
 
     public async Task<HotelResultDto> AddAsync(HotelCreationDto dto)
@@ -104,5 +113,42 @@ public class HotelService : IHotelService
 
         var res = mapper.Map<IEnumerable<UserResultDto>>(hotel.Employees);
         return res;
+    }
+
+    public async Task<HotelResultDto> ImageUploadAsync(long hotelId, AttachmentCreationDto dto)
+    {
+        var hotel = await repository.SelectAsync(x => x.Id.Equals(hotelId))
+            ?? throw new NotFoundException($"Could not upload image, because hotel was not found!");
+
+        var hotelAttachments = await hotelAttachmentRepository.SelectAll().ToListAsync();
+        if (hotelAttachments.Count() == 10)
+            throw new CustomException(429, "Out of limit image!");
+
+        var createAttachment = await attachmentService.UploadAsync("HotelFile", dto);
+
+        var newHotelAttachment = new HotelAttachmentCreationDto()
+        {
+            AttachmentId = createAttachment.Id,
+            HotelId = hotelId,
+        };
+        await hotelAttachmentService.AddAsync(newHotelAttachment);
+
+        createAttachment.HotelAttachments = hotelAttachments;
+        hotel.HotelAttachments = hotelAttachments;
+
+        return mapper.Map<HotelResultDto>(hotel);
+    }
+
+    public async Task<HotelResultDto> ModifyImageAsync(long hotelId, long attachmentId, AttachmentCreationDto dto)
+    {
+        var hotel = await repository.SelectAsync(x => x.Id.Equals(hotelId))
+            ?? throw new NotFoundException($"Could not upload image, because hotel was not found!");
+
+        var hotelAttachment = await hotelAttachmentRepository.SelectAsync(x => x.HotelId.Equals(hotelId) && x.AttachmentId.Equals(attachmentId))
+            ?? throw new NotFoundException("Attachment was not found!");
+
+        await attachmentService.ModifyAsync("HotelFile", attachmentId, dto);
+
+        return mapper.Map<HotelResultDto>(hotel);
     }
 }

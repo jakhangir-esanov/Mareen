@@ -115,9 +115,8 @@ public class UserService : IUserService
         long attachmentId = user.AttachmentId
             ?? throw new NotFoundException("Attachment was not found!");
 
-        await this.attachmentService.RemoveAsync(attachmentId);
+        var createAttachment = await this.attachmentService.ModifyAsync("UserFile", attachmentId, dto);
 
-        var createAttachment = await this.attachmentService.UploadAsync("UserFile",dto);
         user.AttachmentId = createAttachment.Id;
         user.Attachment = createAttachment;
 

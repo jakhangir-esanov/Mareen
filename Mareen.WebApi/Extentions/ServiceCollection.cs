@@ -23,10 +23,13 @@ public static class ServiceCollection
         services.AddScoped<IBookingService, BookingService>();
         services.AddScoped<IGuestService, GuestService>();
         services.AddScoped<IHotelService, HotelService>();
+        services.AddScoped<IHotelAttachmentService, HotelAttachmentService>();
         services.AddScoped<IPaymentHistoryService, PaymentHistoryService>();
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IRoomService, RoomService>();
+        services.AddScoped<IRoomAttachmentService, RoomAttachmentService>();
         services.AddScoped<IServiceService, ServiceService>();
+        services.AddScoped<IServiceAttachmentService, ServiceAttachmentService>();
         services.AddScoped<IUserService, UserService>();
     }
 

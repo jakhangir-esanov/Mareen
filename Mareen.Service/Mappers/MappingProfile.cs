@@ -3,10 +3,13 @@ using Mareen.Domain.Entities;
 using Mareen.Service.DTOs.BookingItems;
 using Mareen.Service.DTOs.Bookings;
 using Mareen.Service.DTOs.Guests;
+using Mareen.Service.DTOs.HotelAttachments;
 using Mareen.Service.DTOs.Hotels;
 using Mareen.Service.DTOs.PaymentHistories;
 using Mareen.Service.DTOs.Payments;
+using Mareen.Service.DTOs.RoomAttachments;
 using Mareen.Service.DTOs.Rooms;
+using Mareen.Service.DTOs.ServiceAttachments;
 using Mareen.Service.DTOs.Services;
 using Mareen.Service.DTOs.Users;
 
@@ -60,5 +63,20 @@ public class MappingProfile : Profile
         CreateMap<User, UserCreationDto>().ReverseMap();
         CreateMap<UserUpdateDto, User>().ReverseMap();
         CreateMap<UserResultDto, User>().ReverseMap();
+
+        //HotelAttachment
+        CreateMap<HotelAttachment, HotelAttachmentCreationDto>().ReverseMap();
+        CreateMap<HotelAttachmentUpdateDto, HotelAttachment>().ReverseMap();
+        CreateMap<HotelAttachmentResultDto, HotelAttachment>().ReverseMap();
+
+        //RoomAttachment
+        CreateMap<RoomAttachment, RoomAttachmentCreationDto>().ReverseMap();
+        CreateMap<RoomAttachmentUpdateDto, RoomAttachment>().ReverseMap();
+        CreateMap<RoomAttachmentResultDto, RoomAttachment>().ReverseMap();
+
+        //ServiceAttachment
+        CreateMap<ServiceAttachment, ServiceAttachmentCreationDto>().ReverseMap();
+        CreateMap<ServiceAttachmentUpdateDto, ServiceAttachment>().ReverseMap();
+        CreateMap<ServiceAttachmentResultDto, ServiceAttachment>().ReverseMap();
     }
 }

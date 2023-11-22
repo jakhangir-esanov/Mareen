@@ -2,9 +2,8 @@
 
 namespace Mareen.Domain.Entities;
 
-public sealed class ServiceAttachment
+public sealed class ServiceAttachment : Auditable
 {
-    public long Id { get; set; }
     public long ServiceId { get; set; }
     public long AttachmentId { get; set; }
 

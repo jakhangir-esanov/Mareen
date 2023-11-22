@@ -153,7 +153,10 @@ namespace Mareen.DAL.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HotelId = table.Column<long>(type: "bigint", nullable: false),
-                    AttachmentId = table.Column<long>(type: "bigint", nullable: false)
+                    AttachmentId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -179,7 +182,10 @@ namespace Mareen.DAL.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomId = table.Column<long>(type: "bigint", nullable: false),
-                    AttachmentId = table.Column<long>(type: "bigint", nullable: false)
+                    AttachmentId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -205,7 +211,10 @@ namespace Mareen.DAL.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ServiceId = table.Column<long>(type: "bigint", nullable: false),
-                    AttachmentId = table.Column<long>(type: "bigint", nullable: false)
+                    AttachmentId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -372,7 +381,8 @@ namespace Mareen.DAL.Migrations
                         name: "FK_PaymentHistories_Guests_GuestId",
                         column: x => x.GuestId,
                         principalTable: "Guests",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PaymentHistories_Payments_Id",
                         column: x => x.Id,

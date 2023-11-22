@@ -280,8 +280,17 @@ namespace Mareen.DAL.Migrations
                     b.Property<long>("AttachmentId")
                         .HasColumnType("bigint");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<long>("HotelId")
                         .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -427,8 +436,17 @@ namespace Mareen.DAL.Migrations
                     b.Property<long>("AttachmentId")
                         .HasColumnType("bigint");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<long>("RoomId")
                         .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -483,8 +501,17 @@ namespace Mareen.DAL.Migrations
                     b.Property<long>("AttachmentId")
                         .HasColumnType("bigint");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<long>("ServiceId")
                         .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -666,9 +693,9 @@ namespace Mareen.DAL.Migrations
             modelBuilder.Entity("Mareen.Domain.Entities.PaymentHistory", b =>
                 {
                     b.HasOne("Mareen.Domain.Entities.Guest", "Guest")
-                        .WithMany("Transactions")
+                        .WithMany("PaymentHistories")
                         .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Mareen.Domain.Entities.Payment", "Payment")
@@ -766,7 +793,7 @@ namespace Mareen.DAL.Migrations
                 {
                     b.Navigation("Bookings");
 
-                    b.Navigation("Transactions");
+                    b.Navigation("PaymentHistories");
                 });
 
             modelBuilder.Entity("Mareen.Domain.Entities.Hotel", b =>

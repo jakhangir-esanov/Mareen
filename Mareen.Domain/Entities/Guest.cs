@@ -12,7 +12,7 @@ public sealed class Guest : Auditable
     public string Email { get; set; }
     public string Password { get; set;}
     public string Salt { get; set; }
-    public ICollection<PaymentHistory> Transactions { get; set; }
+    public ICollection<PaymentHistory> PaymentHistories { get; set; }
     public ICollection<Booking> Bookings { get;}
 
     public long? AttachmentId { get; set; }

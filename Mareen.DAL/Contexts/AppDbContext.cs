@@ -60,11 +60,11 @@ public class AppDbContext : DbContext
         //One-to-many realition for Guest and PaymentHistory
         modelBuilder.Entity<PaymentHistory>()
             .HasOne(b => b.Guest)
-            .WithMany(b => b.Transactions)
+            .WithMany(b => b.PaymentHistories)
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Guest>()
-            .HasMany(b => b.Transactions)
+            .HasMany(b => b.PaymentHistories)
             .WithOne(b => b.Guest)
             .OnDelete(DeleteBehavior.Cascade);
 

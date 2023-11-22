@@ -5,6 +5,6 @@ namespace Mareen.Service.Interfaces;
 
 public interface IAttachmentService
 {
-    Task<Attachment> UploadAsync(AttachmentCreationDto dto);
+    Task<Attachment> UploadAsync(string dirName, AttachmentCreationDto dto);
     Task<bool> RemoveAsync(long attachmentId);
 }

@@ -16,9 +16,9 @@ public class AttachmentService : IAttachmentService
         this.repository = repository;
     }
 
-    public async Task<Attachment> UploadAsync(AttachmentCreationDto dto)
+    public async Task<Attachment> UploadAsync(string dirName, AttachmentCreationDto dto)
     {
-        var webrootPath = Path.Combine(PathHelper.WebRootPath, "Files");
+        var webrootPath = Path.Combine(PathHelper.WebRootPath, dirName);
 
         if (!Directory.Exists(webrootPath))
             Directory.CreateDirectory(webrootPath);

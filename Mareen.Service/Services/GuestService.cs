@@ -99,7 +99,7 @@ public class GuestService : IGuestService
         var guest = await repository.SelectAsync(expression, new[] { "PaymentHistory" })
             ?? throw new NotFoundException("Not found!");
 
-        var res = mapper.Map<IEnumerable<PaymentHistoryResultDto>>(guest.Transactions);
+        var res = mapper.Map<IEnumerable<PaymentHistoryResultDto>>(guest.PaymentHistories);
         return res;
     }
 
@@ -122,7 +122,7 @@ public class GuestService : IGuestService
         if (guest.AttachmentId is not null)
             throw new AlreadyExistException("Attachment already exist!");
 
-        var createAttachment = await this.attachmentService.UploadAsync(dto);
+        var createAttachment = await this.attachmentService.UploadAsync("GuestFile", dto);
         guest.AttachmentId = createAttachment.Id;
         guest.Attachment = createAttachment;
 
@@ -142,7 +142,7 @@ public class GuestService : IGuestService
 
         await this.attachmentService.RemoveAsync(attachmentId);
 
-        var createAttachment = await this.attachmentService.UploadAsync(dto);
+        var createAttachment = await this.attachmentService.UploadAsync("GuestFile", dto);
         guest.AttachmentId = createAttachment.Id;
         guest.Attachment = createAttachment;
 

@@ -97,7 +97,7 @@ public class UserService : IUserService
         if (user.AttachmentId is not null)
             throw new AlreadyExistException("Attachment already exist!");
 
-        var createAttachment = await this.attachmentService.UploadAsync(dto);
+        var createAttachment = await this.attachmentService.UploadAsync("UserFile", dto);
         user.AttachmentId = createAttachment.Id;
         user.Attachment = createAttachment;
 
@@ -117,7 +117,7 @@ public class UserService : IUserService
 
         await this.attachmentService.RemoveAsync(attachmentId);
 
-        var createAttachment = await this.attachmentService.UploadAsync(dto);
+        var createAttachment = await this.attachmentService.UploadAsync("UserFile",dto);
         user.AttachmentId = createAttachment.Id;
         user.Attachment = createAttachment;
 

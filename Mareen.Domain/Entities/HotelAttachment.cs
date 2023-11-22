@@ -2,9 +2,8 @@
 
 namespace Mareen.Domain.Entities;
 
-public sealed class HotelAttachment 
+public sealed class HotelAttachment : Auditable
 {
-    public long Id { get; set; }
     public long HotelId { get; set; }
     public long AttachmentId { get; set; }
 

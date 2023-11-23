@@ -62,7 +62,7 @@ public class GuestController : ControllerBase
             Data = await this.guestService.ImageUploadAsync(guestId, dto)
         });
 
-    [HttpPost("update-image")]
+    [HttpPut("update-image")]
     public async Task<IActionResult> UpdateImageAsync(long guestId, [FromForm] AttachmentCreationDto dto)
         => Ok(new Response
         {

@@ -70,4 +70,22 @@ public class RoomController : ControllerBase
             Message = "Success",
             Data = await this.roomService.RetrieveAllAvailableAsync()
         });
+
+    [HttpPost("image-upload")]
+    public async Task<IActionResult> ImageUploadAsync(long roomId, [FromForm] AttachmentCreationDto dto)
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await roomService.ImageUploadAsync(roomId, dto)
+        });
+
+    [HttpPut("update-image")]
+    public async Task<IActionResult> UpdateImageAsync(long roomId, long attachmentId, [FromForm] AttachmentCreationDto dto)
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await roomService.ModifyImageAsync(roomId, attachmentId, dto)
+        });
 }

@@ -54,7 +54,7 @@ public class UserController : ControllerBase
             Data = await this.userService.ImageUploadAsync(userId, dto)
         });
 
-    [HttpPost("update-image")]
+    [HttpPut("update-image")]
     public async Task<IActionResult> ModifyImageAsync(long userId, [FromForm] AttachmentCreationDto dto)
         => Ok(new Response
         {

@@ -1,4 +1,5 @@
-﻿using Mareen.Service.DTOs.Services;
+﻿using Mareen.Service.DTOs.Attachments;
+using Mareen.Service.DTOs.Services;
 using Mareen.Service.Interfaces;
 using Mareen.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -59,5 +60,23 @@ public class ServiceController : ControllerBase
             StatusCode = 200,
             Message = "Success",
             Data = await this.serviceService.RetrieveAllAsync()
+        });
+
+    [HttpPost("upload-image")]
+    public async Task<IActionResult> UploadImageAsync(long serviceId, [FromForm] AttachmentCreationDto dto)
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await this.serviceService.ImageUploadAsync(serviceId, dto)
+        });
+
+    [HttpPut("update-image")]
+    public async Task<IActionResult> UpdateImageAsync(long serviceId, long attachmentId, [FromForm] AttachmentCreationDto dto)
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await this.serviceService.ModifyImageAsync(serviceId, attachmentId, dto)
         });
 }

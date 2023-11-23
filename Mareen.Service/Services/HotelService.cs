@@ -142,9 +142,10 @@ public class HotelService : IHotelService
     public async Task<HotelResultDto> ModifyImageAsync(long hotelId, long attachmentId, AttachmentCreationDto dto)
     {
         var hotel = await repository.SelectAsync(x => x.Id.Equals(hotelId))
-            ?? throw new NotFoundException($"Could not upload image, because hotel was not found!");
+            ?? throw new NotFoundException($"Could not update image, because hotel was not found!");
 
-        var hotelAttachment = await hotelAttachmentRepository.SelectAsync(x => x.HotelId.Equals(hotelId) && x.AttachmentId.Equals(attachmentId))
+        var hotelAttachment = await hotelAttachmentRepository.SelectAsync(x => x.HotelId.Equals(hotelId) 
+            && x.AttachmentId.Equals(attachmentId))
             ?? throw new NotFoundException("Attachment was not found!");
 
         await attachmentService.ModifyAsync("HotelFile", attachmentId, dto);
